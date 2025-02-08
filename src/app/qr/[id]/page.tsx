@@ -1,3 +1,4 @@
+import CenteredLayout from "@/components/CenteredLayout"
 import QRCode from "react-qr-code"
 
 export default async function Page({
@@ -6,7 +7,10 @@ export default async function Page({
   params: Promise<{ id: string }>
 }) {
   const id = (await params).id
-  return (<div>
+  return (<CenteredLayout>
+
     <QRCode value={id} />
-  </div>)
+  </CenteredLayout>
+
+  )
 }
