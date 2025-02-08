@@ -1,16 +1,16 @@
 // src/app/auth/signup/page.tsx
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
-  const [username, setUsername] = useState('');
-  const [city, setCity] = useState('');
-  const [insta, setInsta] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [city, setCity] = useState("");
+  const [insta, setInsta] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -18,21 +18,28 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, city, insta, linkedin, email, password }),
+        body: JSON.stringify({
+          username,
+          city,
+          insta,
+          linkedin,
+          email,
+          password,
+        }),
       });
 
       if (response.ok) {
-        router.push('/home');
+        router.push("/home");
       } else {
-        alert('Error during signup!');
+        alert("Error during signup");
       }
-    } catch (error) {
-      alert('Something went wrong!');
+    } catch (error: any) {
+      alert(`Something went wrong: ${error}`);
     } finally {
       setLoading(false);
     }
@@ -83,7 +90,7 @@ const Signup = () => {
           required
         />
         <button type="submit" disabled={loading}>
-          {loading ? 'Signing Up...' : 'Sign Up'}
+          {loading ? "Signing Up..." : "Sign Up"}
         </button>
       </form>
     </div>

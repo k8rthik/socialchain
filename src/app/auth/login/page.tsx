@@ -1,12 +1,12 @@
 // src/app/auth/login/page.tsx
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -14,21 +14,21 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
-        router.push('/');
+        router.push("/");
       } else {
-        alert('Invalid credentials!');
+        alert("Invalid credentials!");
       }
-    } catch (error) {
-      alert('Error during login!');
+    } catch (error: any) {
+      alert(`Error during login: ${error}`);
     } finally {
       setLoading(false);
     }
@@ -53,7 +53,7 @@ const Login = () => {
           required
         />
         <button type="submit" disabled={loading}>
-          {loading ? 'Logging In...' : 'Login'}
+          {loading ? "Logging In..." : "Login"}
         </button>
       </form>
     </div>
