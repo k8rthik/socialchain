@@ -2,12 +2,11 @@
 'use client';
 
 import React from 'react';
+import UserStatus from './components/UserStatus';
 
 const Home = () => {
   return (
-    <div>
-      <h1>Root</h1>
-    </div>
+    <UserStatus />
   );
 };
 
