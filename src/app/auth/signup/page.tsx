@@ -38,7 +38,7 @@ const Signup = () => {
       } else {
         alert("Error during signup");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       alert(`Something went wrong: ${error}`);
     } finally {
       setLoading(false);

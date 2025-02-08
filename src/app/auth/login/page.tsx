@@ -27,7 +27,7 @@ const Login = () => {
       } else {
         alert("Invalid credentials!");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       alert(`Error during login: ${error}`);
     } finally {
       setLoading(false);
