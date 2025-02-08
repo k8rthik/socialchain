@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Card from "../components/card"
@@ -37,16 +38,16 @@ export default function Main() {
   const [id, setId] = useState(0);
 
   function handleLeft() {
-    setId((prevId) => {
-      const newId = prevId === 0 ? cards.length - 1 : prevId - 1;
+    setId(() => {
+      const newId = id === 0 ? cards.length - 1 : id - 1;
       setCard(cards[newId]); // Update the card based on the new ID
       return newId; // Return the new ID to update the state
     });
   }
 
   function handleRight() {
-    setId((prevId) => {
-      const newId = prevId === cards.length - 1 ? 0 : prevId + 1;
+    setId(() => {
+      const newId = id === cards.length - 1 ? 0 : id + 1;
       setCard(cards[newId]); // Update the card based on the new ID
       return newId; // Return the new ID to update the state
     });

@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 
 
 
-function handleSubmit(event : any) {
+function handleSubmit() {
 	// contact back end w task ID
-	const id = event.target.className[0];
+	// const id = event.target.className[0];
 }
 
 
