@@ -1,6 +1,6 @@
 // home.tsx
-import { useAuth } from "./authContext";
-import { db } from "./firebaseConfig";
+import { useAuth } from "../contexts/authContext";
+import { db } from "../firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 

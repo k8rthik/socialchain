@@ -1,7 +1,7 @@
 // signup.tsx
 import { useState } from "react";
-import { useAuth } from "./authContext";
-import { db } from "./firebaseConfig";
+import { useAuth } from "../contexts/authContext";
+import { db } from "../firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 
