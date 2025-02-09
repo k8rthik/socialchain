@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Carousel from "../../components/Carousel";
 import { setLogLevel } from "firebase/app";
 import Bar from "@/components/Bar";
-import Footer from "@/components/Footer";
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
@@ -16,6 +16,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState<any[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -114,6 +116,12 @@ const Home = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.push("/auth/login");
+  };
+
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
@@ -148,7 +156,32 @@ const Home = () => {
         </div>
       </div>
 
-      <Footer />
+      {/* Log Out Button */}
+      <div className="mb-auto mt-2 text-center">
+        <button
+          onClick={handleSignOut}
+          className="px-6 py-3 mb-10 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
+        >
+          Log Out
+        </button>
+      </div>
+
+      {/* Bottom Menu */}
+      <div className="sticky bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-evenly items-center py-4 shadow-[4px_-4px_0_0_#000]">
+        {menuItems.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => setSelectedMenu(index)}
+            className={`cursor-pointer w-20 text-center text-sm font-bold transition-all duration-300 ${
+              selectedMenu === index
+                ? "text-yellow-400 scale-110"
+                : "text-black hover:scale-110"
+            }`}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
