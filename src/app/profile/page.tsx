@@ -13,6 +13,9 @@ const Profile = () => {
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
   const [completedTasks, setCompletedTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [socialMedia, setSocialMedia] = useState("");
+  const [userID, setUserID] = useState("");
+  const [success, showSuccess] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -52,7 +55,7 @@ const Profile = () => {
       // Fetch the user's ID and name
       const { data: usrData, error: usrError } = await supabase
         .from("user")
-        .select("id, name, exp")
+        .select("id, name, exp, social_media")
         .eq("email", user.email)
         .single();
 
@@ -62,6 +65,8 @@ const Profile = () => {
       }
 
       setUsername(usrData.name);
+      setUserID(usrData.id);
+      setSocialMedia(usrData.social_media);
 
       setPoints(usrData.exp);
     } catch (error) {
@@ -121,10 +126,13 @@ const Profile = () => {
         .eq("status", "completed")
         .order("completed_at", { ascending: false }); // Sort by completion date
 
+
+        
       if (error) {
         console.error("Error fetching completed tasks:", error);
         return;
       }
+    
 
       // For each task, fetch the corresponding card details (like title)
       const tasksWithTitles = await Promise.all(
@@ -172,6 +180,24 @@ const Profile = () => {
     router.push("/auth/login");
   };
 
+
+  const handleSocialMedia = async () => {
+    const { error: updateError } = await supabase
+    .from('user')
+    .update({
+      social_media: socialMedia
+    })
+    .eq('id', userID);
+
+    if (!updateError) {
+      showSuccess(true);
+      setTimeout(() => {
+        showSuccess(false);
+      }, 3000);
+    }
+
+  }
+
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
@@ -181,6 +207,8 @@ text-black font-poppins overflow-hidden">
       <div className="py-10 text-center">
         <h1 className="text-4xl font-bold tracking-wide">Profile</h1>
       </div>
+
+
 
       {/* Profile Info */}
       <div className="mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
@@ -192,6 +220,15 @@ text-black font-poppins overflow-hidden">
           <p className="font-semibold">Total Points Earned:</p>
           <p className="text-2xl font-bold">{points} points</p>
         </div>
+
+        <div className = "mt-4 gap-2 mb-4 flex flex-row w-full justify-center content-center">
+      <input value={socialMedia} onChange={(event) => setSocialMedia(event.target.value)} className = "p-2" placeholder="Social Media Link" type = "text"/>
+      <button onClick={handleSocialMedia} className="px-4 py-2 text-sm bg-red-500 text-white border-2 border-black 
+          rounded-lg shadow-[3px_3px_0_0_#000] transition-all duration-300 
+          hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
+        >Save</button>
+  </div>
+  <p className={`text-center text-green-600 ${success ? "" : "hidden"}`}>Successfully Saved Social Media Link</p>
 
         {/* Leaderboard */}
         <div className="mt-8">
