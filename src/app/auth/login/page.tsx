@@ -116,7 +116,10 @@ const LoginPage = () => {
             onClick={async () =>
               await supabase.auth.signInWithOAuth({
                 provider: "google",
-                options: { redirectTo: `@app/auth/callback/route.ts` },
+                options: {
+                  queryParams: { next: "/home" },
+                  redirectTo: `https://socialchain-liart.vercel.app/auth/callback`,
+                },
               })
             }
             className="w-full py-3 px-4 border-2 border-black rounded-lg font-bold bg-white text-black shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
