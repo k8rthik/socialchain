@@ -175,7 +175,7 @@ const Profile = () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="flex flex-col min-h-screen max-w-5xl mx-auto px-6 py-4 bg-[#f8f5f2] 
+    <div className="flex flex-col min-h-screen mx-auto px-6 py-4 bg-[#f8f5f2] 
 text-black font-poppins overflow-hidden">
       {/* Header */}
       <div className="py-10 text-center">
