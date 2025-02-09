@@ -1,7 +1,25 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session) {
+        router.push("/home/");
+      }
+    };
+    checkSession();
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-[#f7f6ee] p-6 font-medium text-gray-900">
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-center">
