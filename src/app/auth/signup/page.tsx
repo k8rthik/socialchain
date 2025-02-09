@@ -21,7 +21,10 @@ const SignUp = () => {
         email,
         password,
         options: {
-          emailRedirectTo: process.env.NODE_ENV === "development" ? "http://localhost:3000/home" : "https://socialchain-liart.vercel.app/home",
+          emailRedirectTo:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000/home"
+              : "https://socialchain-liart.vercel.app/home",
         },
       });
 
@@ -85,8 +88,9 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 px-4 border-2 border-black rounded-lg font-bold text-white bg-[#FF6B6B] shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5 transition-all ${loading ? "opacity-80 cursor-not-allowed" : ""
-              }`}
+            className={`w-full py-3 px-4 border-2 border-black rounded-lg font-bold text-white bg-[#FF6B6B] shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5 transition-all ${
+              loading ? "opacity-80 cursor-not-allowed" : ""
+            }`}
           >
             {loading ? "Creating Magic..." : "Get Started"}
           </button>
@@ -97,7 +101,10 @@ const SignUp = () => {
             onClick={async () =>
               await supabase.auth.signInWithOAuth({
                 provider: "google",
-                options: { redirectTo: process.env.NODE_ENV === "development" ? "http://localhost:3000/auth/callback" : "https://socialchain-liart.vercel.app/auth/callback" },
+                options: {
+                  redirectTo:
+                    "socialchain-liart.vercel.app/auth/callback?next=/home",
+                },
               })
             }
             className="w-full py-3 px-4 border-2 border-black rounded-lg font-bold bg-white text-black shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
