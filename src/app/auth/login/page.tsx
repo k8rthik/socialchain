@@ -16,7 +16,7 @@ const LoginPage = () => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        router.push('/'); // Redirect to homepage if logged in
+        router.push('/home/'); // Redirect to homepage if logged in
       }
     };
     checkSession();
@@ -43,7 +43,7 @@ const LoginPage = () => {
 
       // If successful, redirect to home or another page
       console.log('Logged in:', data);
-      router.push('/'); // Redirect to homepage after successful login
+      router.push('/home/'); // Redirect to homepage after successful login
     } catch (err) {
       console.error('Error logging in:', err);
       setError('An error occurred. Please try again.');
