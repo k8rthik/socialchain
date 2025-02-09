@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Carousel from "../../components/Carousel";
-import Bar from "../../components/Bar";
+
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
@@ -132,25 +132,24 @@ const Home = () => {
   const menuItems = ["Home", "Tasks", "Leaderboard", "Clans", "Profile"];
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8f5f2] text-black font-poppins overflow-hidden">
+    <div className="flex flex-col bg-[#f8f5f2] text-black font-poppins overflow-hidden">
       {/* Header */}
       <div className="py-10 text-center">
-        <h1 className="text-4xl font-bold tracking-wide">Hello, {username}</h1>
+        <h1 className="text-4xl font-bold tracking-wide">
+          Hello, {user.email}
+        </h1>
       </div>
 
       {/* Tasks Dashboard */}
-      <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Your Tasks Dashboard
-        </h2>
-        <div className="space-y-4">
+      <div>
+        <div>
           {tasks.length > 0 ? (
             <Carousel tasks={tasks} />
           ) : (
             <p className="text-center text-lg">No tasks available.</p>
           )}
         </div>
-        <Bar level={20} exp={3325} />
+        <Bar level={20} exp={3325}/>
       </div>
 
       {/* Popup for Tasks */}
@@ -180,12 +179,11 @@ const Home = () => {
           </div>
         </div>
       )}
-
       {/* Log Out Button */}
       <div className="mt-8 text-center">
         <button
           onClick={handleSignOut}
-          className="px-6 py-3 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
+          className="px-6 py-3 mb-10 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
         >
           Log Out
         </button>

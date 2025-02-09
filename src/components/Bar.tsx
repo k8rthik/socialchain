@@ -30,17 +30,20 @@ export default function Bar(props: any) {
 
 		<div>
 			<VictoryChart
+			   height={32}
+				
 				maxDomain={{ y: xpNeededForLevel(props.level) }}
 				theme={VictoryTheme.clean}
+
 				
 			>
 				 <VictoryAxis style={{ 
     axis: {stroke: "transparent"}, 
     ticks: {stroke: "transparent"},
-    tickLabels: { fill:"transparent"} 
+    tickLabels: { fill:"transparent"},
   }} />
 				<VictoryBar
-				barWidth={50}
+				barWidth={8}
 				style={{
 					
 					labels: {fontSize: 0}, 
