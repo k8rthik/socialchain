@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Carousel from "../../components/Carousel";
 import { setLogLevel } from "firebase/app";
+import Bar from "@/components/Bar";
 
 
 const Home = () => {
@@ -105,7 +106,6 @@ const Home = () => {
           return {
             ...task,
             cardTitle: card.title,
-            description: card.description,
             id: task.id,
             difficulty: card.difficulty,
           };
@@ -134,17 +134,23 @@ const Home = () => {
   
 
   // Bottom Menu Items
-  const menuItems = ["Home", "Tasks", "Leaderboard", "Clans", "Profile"];
+  const menuItems = ["Home", "Tasks", "Leaderboard", "Graph", "Profile"];
 
   return (
     <div className="flex flex-col bg-[#f8f5f2] text-black font-poppins overflow-hidden">
       {/* Header */}
-      <div className="py-10 text-center">
+      <div className="pt-10 text-center">
         <h1 className="text-4xl font-bold tracking-wide">
-      
           Hello, {username}
         </h1>
       </div>
+      <div className="flex flex-row content-center justify-center mr-16">
+						<Bar level={level} exp={exp} />
+					</div>
+          <div className="h-8 w-128 text-center">
+					<h1>{`Level ${level} (exp: ${exp})`}</h1>
+			
+				</div>
 
       {/* Tasks Dashboard */}
       <div>

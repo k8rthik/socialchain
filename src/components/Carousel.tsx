@@ -5,37 +5,15 @@ import Card from "../components/card"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react";
-import { motion } from "framer-motion"
-import Bar from "../components/Bar";
-
-
-
-const cards: any[] = [{
-	"title": "Test",
-	"description": "test 1",
-	"points": "1",
-	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
-	"cardID": "1"
-},
-{
-	"title": "Test",
-	"description": "test 2",
-	"points": "2",
-	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
-	"cardID": "2"
-},
-{
-	"title": "Test",
-	"description": "test 3",
-	"points": "3",
-	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
-	"cardID": "3"
-}];
+import { animate, motion } from "framer-motion"
 
 
 
 
-export default function Carousel({tasks, level, exp} : any) {
+
+
+
+export default function Carousel({ tasks, level, exp }: any) {
 
 
 
@@ -51,6 +29,7 @@ export default function Carousel({tasks, level, exp} : any) {
 	const [card, setCard] = useState(cards[0]);
 	const [id, setId] = useState(0);
 	const [dir, setDir] = useState(1);
+	const [animationState, setAnimationState] = useState("slide1");
 
 
 
@@ -58,8 +37,14 @@ export default function Carousel({tasks, level, exp} : any) {
 	function handleLeft() {
 		setId(() => {
 			const newId = id === 0 ? cards.length - 1 : id - 1;
-			setCard(cards[newId]); // Update the card based on the new ID
 			setDir(-1);
+			setAnimationState("slide2");
+			setTimeout(() => {
+				setCard(cards[newId]); // Update the card based on the new ID
+				setAnimationState("slide1");
+				
+			}, 2000);
+		
 
 			return newId; // Return the new ID to update the state
 		});
@@ -68,56 +53,72 @@ export default function Carousel({tasks, level, exp} : any) {
 	function handleRight() {
 		setId(() => {
 			const newId = id === cards.length - 1 ? 0 : id + 1;
-			setCard(cards[newId]); // Update the card based on the new ID
 			setDir(1);
-
+			setAnimationState("slide2");
+			setTimeout(() => {
+				setAnimationState("slide1");
+				setCard(cards[newId]); // Update the card based on the new ID
+		
+			}, 2000);
 			return newId; // Return the new ID to update the state
 		});
 	}
 
 
-
+	const variants = {
+		slide1: { x: 0 },
+		slide2: { x: 1500 * dir },
+	  }
 
 	return (
 
 
 		<section>
-			<div className="mt-8 mx-auto h-fit w-[80%] bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
-				<div className="bg-blue-100 pb-6 pt-6 flex content-center align-center justify-center h-128 rounded-[14px]">
-					<h2 className="text-3xl font-bold h-full text-center">
-						Your Tasks Dashboard
-					</h2>
+			<div className="flex items-center justify-center gap-4">
+				<div className="flex items-center" onClick={handleLeft}>
+					<FontAwesomeIcon 
+						className="w-6 h-6 text-black bg-[#CDD5D1] p-2 border-4 border-black shadow-[4px_4px_0px_black] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5" 
+						icon={faArrowLeft} 
+					/>
 				</div>
-				<div className="h-32 w-128 mt-10 text-center">
-					<h1>{`Level: ${level}, exp: ${exp}`}</h1>
-					<Bar level={level} exp={exp} />
-				</div>
-		<div className = "flex flex-row pl-16 pr-16 content-center justify-center">
 
-
-
-					<div onClick={handleLeft}>
-						<FontAwesomeIcon className="w-16 h-16 text-[#CDD5D1]" icon={faArrowLeft} />
+				<motion.div
+						
+							animate={animationState}
+							variants={variants}
+							transition={{ duration: 3, ease: "easeInOut" }}
+							className={`mt-8 h-[90%] max-w-[65%] w-[80%] bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]`}
+						>
+		
+					
+					<div className="bg-blue-100 ph-4 pb-6 pt-6 flex content-center justify-center align-center h-128 rounded-t-lg">
+						<h2 className="text-l ml-24 mr-24 font-bold h-full text-center">
+						{card.title}
+						</h2>
 					</div>
 
-					{/* <motion.div
-						key={id}
-						animate={{ x: [null, dir * 3000, 0] }}
-						transition={{ duration: 0.8, ease: "easeInOut" }}
-					> */}
+					<div className="flex flex-col items-center justify-center px-16">
+
 
 						<Card title={card.title} description={card.description} points={card.points} src={card.src}
 							cardID={card.cardID} />
-					{/* </motion.div> */}
+					
 
-					<div className="flex align-end" onClick={handleRight} >
-						<FontAwesomeIcon className="w-16 h-16 text-[#CDD5D1]" icon={faArrowRight} />
+					
+			
 					</div>
+					</motion.div>
+
+
+				
+		
+				<div className="flex items-center" onClick={handleRight}>
+					<FontAwesomeIcon 
+						className="ml-[6px] w-6 h-6 text-black bg-[#CDD5D1] p-2 border-4 border-black shadow-[4px_4px_0px_black] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"  
+						icon={faArrowRight} 
+					/>
 				</div>
 			</div>
-	
-
-
 		</section>
 
 	);
