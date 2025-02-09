@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { getFlattenedIds } from "../graph/fetchData";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
@@ -70,7 +71,8 @@ const Profile = () => {
 
   const fetchLeaderboard = async () => {
     // make a list of everyone you are connected with via userId's
-    let connectedUsers = [59, 60, 61, 62, 63, 64]; // replace with actual connected users' IDs
+    let connectedUsers = await getFlattenedIds(user.email); // replace with actual connected users' IDs
+    console.log(user.email);
 
     try {
       // Fetch the exp of all connected users

@@ -29,7 +29,7 @@ async function buildTree(user: any) {
 }
 
 export async function getFlattenedIds(userEmail: string) {
-  getUserTree(userEmail);
+  await getUserTree(userEmail);
   let ids = [];
   for (const id in foundIds) {
     ids.push(id);
