@@ -18,25 +18,26 @@ export default function Footer() {
 
   return (
     <div>
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t-2 border-black flex justify-center py-4">
+      <div className="fixed bottom-0 left-0 w-full bg-[#f8f5f2] border-t-2 border-black flex justify-center py-3 shadow-[0px_-4px_0_0_#000]">
+  {menuItems.map((item, index) => (
+    <div
+      key={index}
+      onClick={() => {
+        setSelectedMenu(index);
+        router.push(`/${menuItems[index].toLowerCase()}`);
+      }}
+      className={`cursor-pointer w-24 text-center text-sm font-bold mx-3 px-2 py-1 rounded-md border-2 border-black transition-all duration-300 
+        ${
+          selectedMenu === index
+            ? "text-yellow-400 bg-white shadow-[2px_2px_0_0_#000] scale-105"
+            : "text-black bg-[#f8f5f2] hover:shadow-[2px_2px_0_0_#000] hover:scale-105"
+        }`}
+    >
+      {item}
+    </div>
+  ))}
+</div>
 
-        {menuItems.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              setSelectedMenu(index);
-              router.push(`/${menuItems[index].toLowerCase()}`);
-            }}
-            className={`cursor-pointer w-20 text-center text-sm font-bold transition-all duration-300 ${
-              selectedMenu === index
-                ? "text-yellow-400 scale-110"
-                : "text-black hover:scale-110"
-            }`}
-          >
-            {item}
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
