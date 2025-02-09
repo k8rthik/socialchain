@@ -6,10 +6,5 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 };
-module.exports = {
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
-}
 
 export default nextConfig;

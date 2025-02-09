@@ -1,17 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation"; // Import useSearchParams from next/navigation
+import { useParams } from 'next/navigation';
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { data } from "framer-motion/client";
 
 const VerifyTask = () => {
-  const searchParams = useSearchParams(); // Access query parameters via useSearchParams
+  const { task_id } = useParams();
   const router = useRouter();
 
   // Get the task_id and user_id from the URL search parameters
-  const task_id = searchParams.get("task_id");
 
   const [status, setStatus] = useState<string | null>(null);
 

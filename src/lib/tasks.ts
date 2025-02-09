@@ -52,7 +52,6 @@ const addTasksToCardPool = async () => {
 
   const cardsToInsert = taskTitles.map((title) => ({
     title,
-    description,
     difficulty: 25,
   }));
 

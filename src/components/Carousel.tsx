@@ -43,7 +43,7 @@ export default function Carousel(tasks: any) {
 		title: task.cardTitle,
 		description: task.description || "No description available.",
 		points: task.difficulty || "0",
-		src: `/verify?task_id=${task.id}`,
+		src: `/verify/${task.id}`,
 		cardID: task.card_id
 	}));
 
