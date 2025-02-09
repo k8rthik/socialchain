@@ -43,7 +43,7 @@ export default function Bar(props: any) {
     tickLabels: { fill:"transparent"},
   }} />
 				<VictoryBar
-				barWidth={8}
+				barWidth={12}
 				style={{
 					
 					labels: {fontSize: 0}, 
