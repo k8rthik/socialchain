@@ -194,14 +194,6 @@ const Profile = () => {
           <p className="text-2xl font-bold">{points} points</p>
         </div>
 
-        {/* Placeholder for Network Graph */}
-        <div className="mt-6">
-          <h3 className="text-2xl font-bold text-center">Your Network Graph</h3>
-          <div className="w-full h-40 bg-gray-300 rounded-lg mt-4 flex items-center justify-center">
-            <p className="text-gray-700">Coming Soon...</p>
-          </div>
-        </div>
-
         {/* Leaderboard */}
         <div className="mt-8">
           <h3 className="text-2xl font-bold text-center mb-4">Local Leaderboard</h3>
