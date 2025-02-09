@@ -23,7 +23,8 @@ export default function Carousel({ tasks, level, exp }: any) {
 		description: task.description || "No description available.",
 		points: task.difficulty || "0",
 		src: `/verify/${task.id}`,
-		cardID: task.card_id
+		cardID: task.card_id,
+		taskID: task.id
 	}));
 
 
@@ -118,7 +119,7 @@ export default function Carousel({ tasks, level, exp }: any) {
 
 
 						<Card title={card.title} description={card.description} points={card.points} src={card.src}
-							cardID={card.cardID} />
+							cardID={card.cardID} taskID={card.taskID} />
 					
 
 					
