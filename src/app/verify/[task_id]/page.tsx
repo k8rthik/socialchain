@@ -131,8 +131,9 @@ const VerifyTask = () => {
         exp: xpData.exp + cardData.difficulty
       }).eq("id", user_id);
 
+
       await supabase.from("user").update({
-        exp: (VxpData.exp + (cardData.difficulty / 2))
+        exp: (VxpData.exp + Math.round(cardData.difficulty / 2))
       }).eq("id", verifier.id);
 
       
