@@ -5,18 +5,18 @@ import Link from "next/link";
 
 export default function Footer() {
   const [selectedMenu, setSelectedMenu] = useState(0);
+  const router = useRouter();
   const handleSignOut = async () => {
-    const router = useRouter();
     await supabase.auth.signOut();
     router.push("/auth/login");
   };
 
   // Bottom Menu Items
-  const menuItems = ["Home", "Tasks", "Leaderboard", "Graph", "Profile"];
+  const menuItems = ["Home", "Graph", "Profile"];
 
   return (
-    <div className="h-screen">
-      <div className="mt-2 text-center">
+    <div>
+      <div className="flex-grow mt-2 text-center">
         <button
           onClick={handleSignOut}
           className="mt-auto px-6 py-3 mb-10 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
@@ -30,7 +30,10 @@ export default function Footer() {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            onClick={() => setSelectedMenu(index)}
+            onClick={() => {
+              setSelectedMenu(index);
+              router.push("/" + menuItems[index]);
+            }}
             className={`cursor-pointer w-20 text-center text-sm font-bold transition-all duration-300 ${
               selectedMenu === index
                 ? "text-yellow-400 scale-110"
