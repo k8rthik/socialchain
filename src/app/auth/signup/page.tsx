@@ -20,6 +20,9 @@ const SignUp = () => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: "http://localhost:3000/home",
+        },
       });
 
       if (error) throw error;
