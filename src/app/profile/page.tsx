@@ -209,12 +209,18 @@ text-black font-poppins overflow-hidden">
               </thead>
               <tbody>
                 {leaderboard.map((user, index) => (
-                  <tr key={user.id} className="border-b border-gray-300">
-                    <td className="p-2">{index + 1}</td>
-                    <td className="p-2">{user.name}</td>
-                    <td className="p-2">{user.points}</td>
-                  </tr>
+                    <tr
+                        key={user.id}
+                        className={`border-b border-gray-300 ${
+                        index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                        }`}
+                    >
+                        <td className="p-2">{index + 1}</td>
+                        <td className="p-2">{user.name}</td>
+                        <td className="p-2">{user.points}</td>
+                    </tr>
                 ))}
+
               </tbody>
             </table>
           </div>
