@@ -7,6 +7,7 @@ import Carousel from "../../components/Carousel";
 import { setLogLevel } from "firebase/app";
 import Bar from "@/components/Bar";
 import Footer from "@/components/Footer";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
@@ -124,11 +125,17 @@ const Home = () => {
   // Bottom Menu Items
   const menuItems = ["Home", "Tasks", "Leaderboard", "Graph", "Profile"];
 
+  const router = useRouter();
+  const handleSignOut = async () => {
+      await supabase.auth.signOut();
+      router.push("/auth/login");
+    };
+
   return (
     <div className="flex flex-col bg-[#f8f5f2] text-black font-poppins h-lvh">
       {/* Header */}
       <div className="pt-10 text-center">
-        <h1 className="text-4xl font-bold tracking-wide">Hello, {username}</h1>
+        <h1 className="text-4xl font-bold tracking-wide mb-4">Hello, {username}</h1>
       </div>
       <div className="flex flex-row content-center justify-center mr-16">
         <Bar level={level} exp={exp} />
@@ -147,6 +154,18 @@ const Home = () => {
           )}
         </div>
       </div>
+      
+      <div className="text-center">
+        <button
+          onClick={handleSignOut}
+          className="mt-4 mb-2 px-4 py-2 text-sm bg-red-500 text-white border-2 border-black 
+          rounded-lg shadow-[3px_3px_0_0_#000] transition-all duration-300 
+          hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
+        >
+          Log Out
+        </button>
+      </div>
+      
 
     </div>
   );

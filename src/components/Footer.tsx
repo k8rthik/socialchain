@@ -18,17 +18,13 @@ export default function Footer() {
 
   return (
     <div>
-      <div className="flex-grow mt-2 text-center">
-        <button
-          onClick={handleSignOut}
-          className="mt-auto px-6 py-3 mb-10 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
-        >
-          Log Out
-        </button>
-      </div>
+      {/* <div className="flex-grow mt-2 text-center bg-white">
+        
+      </div> */}
 
       {/* Bottom Menu */}
-      <div className="mb-auto sticky bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-evenly items-center py-4 shadow-[4px_-4px_0_0_#000]">
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t-2 border-black flex justify-center py-4">
+
         {menuItems.map((item, index) => (
           <div
             key={index}
