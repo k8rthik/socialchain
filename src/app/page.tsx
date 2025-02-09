@@ -29,13 +29,13 @@ export default function Home() {
 
         {/* Tagline */}
         <p className="mb-8 max-w-2xl text-center text-xl leading-relaxed text-gray-800">
-          Join your community, complete daily challenges, verify them, and pass
+          Join your community, complete challenges, verify them, and pass
           them forward.{" "}
           <span className="font-black text-[#FF6B6B]">
             Overcome your social anxiety
           </span>
           , climb the leaderboard, and{" "}
-          <span className="font-black text-[#FF6B6B]">grow your chain!</span>
+          <span className="font-black text-[#FF6B6B]">grow your ripple!</span>
         </p>
 
         {/* Auth Buttons */}
@@ -75,14 +75,14 @@ export default function Home() {
             <h3 className="mb-3 text-xl font-black">Join & Connect</h3>
             <p className="leading-relaxed text-gray-800">
               Claim your spot in local communities and connect social profiles
-              to start chaining
+              to start the ripple effect
             </p>
           </div>
 
           <div className="rounded-xl border-2 border-black bg-[#fff44f] p-6 shadow-[5px_5px_0_0_#000]">
-            <h3 className="mb-3 text-xl font-black">Daily Challenges</h3>
+            <h3 className="mb-3 text-xl font-black">Challenges</h3>
             <p className="leading-relaxed text-gray-800">
-              Skill-based missions with proof verification to keep your chain
+              Skill-based missions with proof verification to keep your ripple
               growing strong
             </p>
           </div>
@@ -90,15 +90,15 @@ export default function Home() {
           <div className="rounded-xl border-2 border-black bg-[#7af6ff] p-6 shadow-[5px_5px_0_0_#000]">
             <h3 className="mb-3 text-xl font-black">Progress Tracking</h3>
             <p className="leading-relaxed text-gray-800">
-              Interactive chain visualization, global leaderboards, and
-              reputation analytics
+              Interactive ripple visualization, local leaderboards, and
+              analytics
             </p>
           </div>
         </div>
 
         {/* Footer */}
         <footer className="mt-12 border-t-2 border-black pt-6 text-center text-sm text-gray-600">
-          © 2025 Ripple — Chain reactions of awesome
+          © 2025 Ripple — Start your own community
         </footer>
       </div>
     </div>
