@@ -34,7 +34,7 @@ const Tree = ({ data }: { data: any }) => {
   return (
     <div
       className="w-full max-w-4xl mx-auto p-6 border-2 border-black bg-[#f0fff7] rounded-xl 
-        shadow-[5px_5px_0_0_#000] overflow-auto"
+        shadow-[5px_5px_0_0_#000] overflow-x-auto"
       style={{ maxHeight: "80vh" }}
     >
       <h2 className="text-3xl font-black mb-6 text-[#FF6B6B]">Your Ripples</h2>
