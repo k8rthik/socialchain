@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Carousel from "../../components/Carousel";
+import Bar from "../../components/Bar";
 
 
 const Home = () => {
@@ -145,6 +146,7 @@ const Home = () => {
             <p>No tasks available.</p>
           )}
         </div>
+        <Bar level={20} exp={3325}/>
       </div>
 
       {/* Popup for tasks */}

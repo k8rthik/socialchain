@@ -18,8 +18,9 @@
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-qr-code": "^2.0.15",
     "supabase": "^2.9.6",
-    "react-qr-code": "^2.0.15"
+    "victory": "^37.3.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
