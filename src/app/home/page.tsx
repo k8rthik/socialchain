@@ -137,7 +137,7 @@ const Home = () => {
       <div className="py-10 text-center">
         <h1 className="text-4xl font-bold tracking-wide">
       
-          Hello, {user.email}
+          Hello, {username}
         </h1>
       </div>
 
