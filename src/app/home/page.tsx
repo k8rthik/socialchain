@@ -6,13 +6,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Carousel from "../../components/Carousel";
 
-
 const Home = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [tasks, setTasks] = useState<any[]>([]); // State to store the tasks
+  const [tasks, setTasks] = useState<any[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState(0); // Default to the first menu item
+  const [selectedMenu, setSelectedMenu] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -44,7 +43,6 @@ const Home = () => {
       },
     );
 
-    // Cleanup listener on component unmount
     return () => {
       authListener?.subscription.unsubscribe();
     };
@@ -58,7 +56,7 @@ const Home = () => {
 
   const fetchUserTasks = async () => {
     try {
-      // Get tasks for the current user
+      // Fetch the user's ID
       const { data: usrId, error: usrError } = await supabase
         .from("user")
         .select("id")
@@ -68,6 +66,7 @@ const Home = () => {
         console.error("Error fetching user ID:", usrError);
         return;
       }
+      // Fetch the tasks for the current user
       const { data: userTasks, error: taskError } = await supabase
         .from("task")
         .select("id, card_id, status")
@@ -78,14 +77,14 @@ const Home = () => {
         return;
       }
 
-      // Fetch the titles of the cards associated with these tasks
+      // Fetch the card details for each task
       const taskWithCardTitles = await Promise.all(
         userTasks.map(async (task) => {
           const { data: card, error: cardError } = await supabase
             .from("card")
             .select("*")
             .eq("id", task.card_id)
-            .single(); // We expect only one card, so use .single()
+            .single();
 
           if (cardError) {
             console.error("Error fetching card title:", cardError);
@@ -97,12 +96,11 @@ const Home = () => {
             cardTitle: card.title,
             description: card.description,
             id: task.id,
-            difficulty: card.difficulty
+            difficulty: card.difficulty,
           };
         }),
       );
 
-      // Filter out any tasks that failed to fetch card data
       setTasks(taskWithCardTitles.filter(Boolean));
     } catch (error) {
       console.error("Error fetching user tasks:", error);
@@ -111,55 +109,54 @@ const Home = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    setUser(null); // Clear user state
-    router.push("/auth/login"); // Redirect to the login page after sign out
+    setUser(null);
+    router.push("/auth/login");
   };
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!user) return <p className="text-center mt-10">Please log in.</p>;
 
-  if (!user) return <p>Please log in.</p>;
-
-  // Menu Items
+  // Bottom Menu Items
   const menuItems = ["Home", "Tasks", "Leaderboard", "Clans", "Profile"];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white font-poppins overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-[#f8f5f2] text-black font-poppins overflow-hidden">
+      {/* Header */}
       <div className="py-10 text-center">
-        <h1 className="text-4xl font-semibold tracking-wide">
+        <h1 className="text-4xl font-bold tracking-wide">
           Hello, {user.email}
         </h1>
       </div>
 
-      {/* Task List (Dashboard) */}
-      <div className="mt-8 mx-auto text-center">
-        <h2 className="text-2xl font-semibold mb-6">Your Tasks Dashboard</h2>
+      {/* Tasks Dashboard */}
+      <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Your Tasks Dashboard
+        </h2>
         <div className="space-y-4">
           {tasks.length > 0 ? (
-			<Carousel tasks={tasks}/>
-            
+            <Carousel tasks={tasks} />
           ) : (
-            <p>No tasks available.</p>
+            <p className="text-center text-lg">No tasks available.</p>
           )}
         </div>
       </div>
 
-      {/* Popup for tasks */}
+      {/* Popup for Tasks */}
       {isPopupOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
           onClick={togglePopup}
         >
           <div
-            className="bg-gray-700 p-8 rounded-lg w-80 shadow-lg relative text-center"
+            className="bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000] p-8 w-80 relative text-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-2xl font-semibold mb-5">
-              Social Friendly Tasks
-            </h2>
+            <h2 className="text-2xl font-bold mb-5">Social Friendly Tasks</h2>
             <ul className="list-none p-0">
               {tasks.map((task, index) => (
                 <li key={index} className="mb-4 text-lg font-medium">
@@ -168,7 +165,7 @@ const Home = () => {
               ))}
             </ul>
             <button
-              className="absolute top-3 right-3 bg-red-500 text-white rounded-full px-3 py-1 font-semibold shadow-md transition-all duration-300 hover:bg-red-400"
+              className="absolute top-3 right-3 bg-red-500 text-white border-2 border-black rounded-full px-3 py-1 font-semibold shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
               onClick={togglePopup}
             >
               ✖
@@ -181,22 +178,22 @@ const Home = () => {
       <div className="mt-8 text-center">
         <button
           onClick={handleSignOut}
-          className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600"
+          className="px-6 py-3 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
         >
           Log Out
         </button>
       </div>
 
       {/* Bottom Menu */}
-      <div className="sticky bottom-0 left-0 right-0 bg-gray-900 flex justify-evenly items-center py-3 border-t-2 border-gray-700 shadow-md">
+      <div className="sticky bottom-0 left-0 right-0 bg-white border-t-4 border-black flex justify-evenly items-center py-4 shadow-[4px_-4px_0_0_#000]">
         {menuItems.map((item, index) => (
           <div
             key={index}
             onClick={() => setSelectedMenu(index)}
-            className={`text-center cursor-pointer w-16 text-sm font-medium transform transition-all duration-300 ${
+            className={`cursor-pointer w-20 text-center text-sm font-bold transition-all duration-300 ${
               selectedMenu === index
-                ? "text-yellow-400 font-bold scale-110"
-                : "text-gray-400 hover:scale-110"
+                ? "text-yellow-400 scale-110"
+                : "text-black hover:scale-110"
             }`}
           >
             {item}

@@ -6,7 +6,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#f7f6ee] p-6 font-medium text-gray-900">
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-center">
         {/* Header Section */}
-        <h1 className="mb-6 text-6xl font-black uppercase tracking-tight text-[#ff4754] drop-shadow-[3px_3px_0_#000]">
+        <h1 className="mb-6 text-6xl font-black uppercase tracking-tight text-[#FF6B6B] drop-shadow-[3px_3px_0_#000]">
           SocialChain
         </h1>
 
@@ -14,16 +14,16 @@ export default function Home() {
         <p className="mb-8 max-w-2xl text-center text-xl leading-relaxed text-gray-800">
           Join your community, complete daily challenges, verify them, and pass
           them forward.{" "}
-          <span className="font-black text-[#ff4754]">Gain reputation</span>,
+          <span className="font-black text-[#FF6B6B]">Gain reputation</span>,
           climb the leaderboard, and{" "}
-          <span className="font-black text-[#ff4754]">grow your chain!</span>
+          <span className="font-black text-[#FF6B6B]">grow your chain!</span>
         </p>
 
         {/* Auth Buttons */}
         <div className="mb-12 flex items-center gap-4">
           <Link
             href="/auth/signup"
-            className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#ff4754] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
+            className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#FF6B6B] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
           >
             Sign Up
           </Link>

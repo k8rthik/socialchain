@@ -57,7 +57,7 @@ const SignUp = () => {
             </label>
             <input
               type="email"
-              className="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-[#FF6B6B] focus:outline-none transition-all"
+              className="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-[#FF6B6B] focus:outline-none transition-all text-black"
               placeholder="hello@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +71,7 @@ const SignUp = () => {
             </label>
             <input
               type="password"
-              className="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none transition-all"
+              className="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none transition-all text-black"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
