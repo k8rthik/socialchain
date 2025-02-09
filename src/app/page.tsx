@@ -6,17 +6,17 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
-  const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null as any);
   const router = useRouter();
 
   useEffect(() => {
-    const checkSession = async () => {
+    const checkUser = async () => {
       const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setSession(session);
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
     };
-    checkSession();
+    checkUser();
   }, []);
 
   return (
@@ -40,7 +40,7 @@ export default function Home() {
 
         {/* Auth Buttons */}
         <div className="mb-12 flex items-center gap-4">
-          {session ? (
+          {user ? (
             <Link
               href="/home"
               className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#FF6B6B] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"

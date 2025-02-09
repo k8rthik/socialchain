@@ -102,8 +102,9 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 px-4 border-2 border-black rounded-lg font-bold text-white bg-[#FF6B6B] shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5 transition-all ${loading ? "opacity-80 cursor-not-allowed" : ""
-              }`}
+            className={`w-full py-3 px-4 border-2 border-black rounded-lg font-bold text-white bg-[#FF6B6B] shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5 transition-all ${
+              loading ? "opacity-80 cursor-not-allowed" : ""
+            }`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
@@ -116,13 +117,8 @@ const LoginPage = () => {
               await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
-<<<<<<< Updated upstream
-                  queryParams: { next: "/home" },
-                  redirectTo: process.env.NODE_ENV !== "development" ? `https://socialchain-liart.vercel.app/auth/callback` : "http://localhost:3000/auth/callback",
-=======
                   redirectTo:
                     "socialchain-liart.vercel.app/auth/callback?next=/",
->>>>>>> Stashed changes
                 },
               })
             }

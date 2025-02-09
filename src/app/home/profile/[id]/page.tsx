@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useParams, useRouter } from "next/navigation";
-import { getFlattenedIds } from "../../home/graph/fetchData";
+import { getFlattenedIds } from "@/app/home/graph/fetchData";
 import Footer from "@/components/Footer";
 
 const Profile = () => {
@@ -150,12 +150,13 @@ const Profile = () => {
     }
   };
 
-
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="flex flex-col min-h-screen mx-auto px-6 py-4 bg-[#f8f5f2] 
-text-black font-poppins overflow-hidden">
+    <div
+      className="flex flex-col min-h-screen mx-auto px-6 py-4 bg-[#f8f5f2] 
+text-black font-poppins overflow-hidden"
+    >
       {/* Header */}
       <div className="py-10 text-center">
         <h1 className="text-4xl font-bold tracking-wide">Profile</h1>
@@ -163,9 +164,7 @@ text-black font-poppins overflow-hidden">
 
       {/* Profile Info */}
       <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          {username}
-        </h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">{username}</h2>
 
         <div className="text-lg text-center">
           <p className="font-semibold">Total Points Earned:</p>
@@ -187,18 +186,18 @@ text-black font-poppins overflow-hidden">
                 </tr>
               </thead>
               <tbody>
-              {leaderboard.map((user, index) => (
-                <tr
-                  key={user.id}
-                  className={`border-b border-gray-300 ${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                  }`}
-                >
-                  <td className="p-2">{index + 1}</td>
-                  <td className="p-2">{user.name}</td>
-                  <td className="p-2">{user.points}</td>
-                </tr>
-              ))}
+                {leaderboard.map((user, index) => (
+                  <tr
+                    key={user.id}
+                    className={`border-b border-gray-300 ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                    }`}
+                  >
+                    <td className="p-2">{index + 1}</td>
+                    <td className="p-2">{user.name}</td>
+                    <td className="p-2">{user.points}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -229,7 +228,6 @@ text-black font-poppins overflow-hidden">
           </div>
         </div>
       </div>
-
     </div>
   );
 };
