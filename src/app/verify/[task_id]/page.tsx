@@ -88,8 +88,10 @@ const VerifyTask = () => {
         .update({
           status: 'completed',
           verifier_id: verifier.id, // Assign the verifier's ID
+          completed_at: new Date(),
         })
         .eq('id', task_id);
+
 
       if (updateError) {
         console.log(updateError);

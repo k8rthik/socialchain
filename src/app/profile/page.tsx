@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import Bar from "../../components/Bar";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
   const [username, setUsername] = useState("...");
   const [points, setPoints] = useState(0);
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [completedTasks, setCompletedTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -41,6 +41,7 @@ const Profile = () => {
     if (user) {
       fetchUserProfile();
       fetchLeaderboard();
+      fetchCompletedTasks();
     }
   }, [user]);
 
@@ -96,6 +97,73 @@ const Profile = () => {
       setLeaderboard(sortedUsers);
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
+    }
+  };
+
+
+  const fetchCompletedTasks = async () => {
+    try {
+
+        const { data: usrData, error: usrError } = await supabase
+        .from("user")
+        .select("id, name, exp")
+        .eq("email", user.email)
+        .single();
+
+        if (!usrData) {
+            return;
+        }
+
+      const { data, error } = await supabase
+      .from("task")
+      .select("id, card_id, completed_at")
+      .eq("user_id", usrData.id)
+      .eq("status", "completed")
+      .order("completed_at", { ascending: false }); // Sort by completion date
+
+    if (error) {
+      console.error("Error fetching completed tasks:", error);
+      return;
+    }
+
+    // For each task, fetch the corresponding card details (like title)
+    const tasksWithTitles = await Promise.all(
+      data.map(async (task) => {
+        // Fetch card details using card_id
+        const { data: cardData, error: cardError } = await supabase
+          .from("card")
+          .select("title")
+          .eq("id", task.card_id)
+          .single();
+
+        if (cardError || !cardData) {
+          console.error("Error fetching card details:", cardError);
+          return null;
+        }
+
+        return { ...task, title: cardData.title }; // Merge card title with task data
+      })
+    );
+
+    // Filter out any tasks that failed to fetch card data
+    setCompletedTasks(tasksWithTitles.filter(task => task !== null));
+
+
+    //   const { data, error } = await supabase
+    //     .from("task")
+    //     .select("id, completed_at")
+    //     .eq("user_id", user.id)
+    //     .is("completed_at", true)
+    //     .order("completed_at", { ascending: false }); // Sort by completion date
+
+    //   if (error) {
+    //     console.error("Error fetching completed tasks:", error);
+    //     return;
+    //   }
+
+    //   setCompletedTasks(data);
+    } catch (error) {
+      console.error("Error fetching completed tasks:", error);
     }
   };
 
@@ -156,7 +224,30 @@ const Profile = () => {
             </table>
           </div>
         </div>
-      </div>
+
+
+        {/* Completed Tasks - Sliding Row */}
+        <div className="mt-8">
+          <h3 className="text-2xl font-bold text-center mb-4">Completed Tasks</h3>
+          <div className="overflow-x-auto flex space-x-4 pb-4">
+            {completedTasks.length > 0 ? (
+              completedTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="min-w-[200px] p-4 bg-blue-100 rounded-lg shadow-lg"
+                >
+                  <h4 className="text-lg font-bold">{task.title}</h4>
+                  <p className="text-sm text-gray-600">Completed on: {new Date(task.completed_at).toLocaleDateString()}</p>
+                </div>
+              ))
+            ) : (
+              <p>No completed tasks yet.</p>
+            )}
+          </div>
+        </div>
+
+    </div>
+
 
       {/* Log Out Button */}
       <div className="mt-8 text-center">
