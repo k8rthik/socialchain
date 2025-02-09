@@ -29,7 +29,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f7f6ee] p-6">
       {sampleData && <Tree data={sampleData} />}
-      <Footer />
     </div>
   );
 }
