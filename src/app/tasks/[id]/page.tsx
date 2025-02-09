@@ -9,7 +9,7 @@ const TaskPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white font-poppins">
       <div className="py-10 text-center">
-        <h1 className="text-4xl font-semibold tracking-wide">Hello, Task {id}!</h1>
+        <h1 className="text-4xl font-semibold tracking-wide">Hello!</h1>
       </div>
 
       {/* Content for the Task */}
