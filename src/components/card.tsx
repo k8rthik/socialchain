@@ -84,6 +84,7 @@ export default function Card(props: any) {
         <p className="italic">{props.points} points</p>
         <div className="text-center">
         <button
+        onClick={(event) => handleForfeit(event, props.taskID, props.points)}
 
           className="px-4 py-1 bg-red-800 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
         >
