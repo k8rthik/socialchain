@@ -25,7 +25,9 @@ export default function Home() {
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-center">
         {/* Header Section */}
         <h1 className="mb-6 text-6xl font-black uppercase tracking-tight text-[#FF6B6B] drop-shadow-[3px_3px_0_#000]">
-          Social\nChain
+          Social
+          <br />
+          Chain
         </h1>
 
         {/* Tagline */}
