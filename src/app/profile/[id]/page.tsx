@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useParams, useRouter } from "next/navigation";
-import { getFlattenedIds } from "../../graph/fetchData";
+import { getFlattenedIds } from "../../home/graph/fetchData";
 import Footer from "@/components/Footer";
 
 const Profile = () => {
@@ -154,7 +154,7 @@ const Profile = () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="flex flex-col min-h-screen max-w-5xl mx-auto px-6 py-4 bg-[#f8f5f2] 
+    <div className="flex flex-col min-h-screen mx-auto px-6 py-4 bg-[#f8f5f2] 
 text-black font-poppins overflow-hidden">
       {/* Header */}
       <div className="py-10 text-center">
@@ -187,13 +187,18 @@ text-black font-poppins overflow-hidden">
                 </tr>
               </thead>
               <tbody>
-                {leaderboard.map((user, index) => (
-                  <tr key={user.id} className="border-b border-gray-300">
-                    <td className="p-2">{index + 1}</td>
-                    <td className="p-2">{user.name}</td>
-                    <td className="p-2">{user.points}</td>
-                  </tr>
-                ))}
+              {leaderboard.map((user, index) => (
+                <tr
+                  key={user.id}
+                  className={`border-b border-gray-300 ${
+                    index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                  }`}
+                >
+                  <td className="p-2">{index + 1}</td>
+                  <td className="p-2">{user.name}</td>
+                  <td className="p-2">{user.points}</td>
+                </tr>
+              ))}
               </tbody>
             </table>
           </div>
