@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react";
 import { animate, motion } from "framer-motion"
+import { s } from "framer-motion/client";
 
 
 
@@ -30,6 +31,8 @@ export default function Carousel({ tasks, level, exp }: any) {
 	const [id, setId] = useState(0);
 	const [dir, setDir] = useState(1);
 	const [animationState, setAnimationState] = useState("slide1");
+	const [reduceMotion, setReduceMotion] = useState(false);
+
 
 
 
@@ -38,12 +41,19 @@ export default function Carousel({ tasks, level, exp }: any) {
 		setId(() => {
 			const newId = id === 0 ? cards.length - 1 : id - 1;
 			setDir(-1);
+			if (!reduceMotion) {
+
+		
 			setAnimationState("slide2");
 			setTimeout(() => {
 				setCard(cards[newId]); // Update the card based on the new ID
 				setAnimationState("slide1");
 				
 			}, 2000);
+		}
+		else {
+			setCard(cards[newId]);
+		}
 		
 
 			return newId; // Return the new ID to update the state
@@ -54,12 +64,19 @@ export default function Carousel({ tasks, level, exp }: any) {
 		setId(() => {
 			const newId = id === cards.length - 1 ? 0 : id + 1;
 			setDir(1);
+			if (!reduceMotion) {
+
+	
 			setAnimationState("slide2");
 			setTimeout(() => {
 				setAnimationState("slide1");
 				setCard(cards[newId]); // Update the card based on the new ID
 		
 			}, 2000);
+		}
+		else {
+			setCard(cards[newId]);
+		}
 			return newId; // Return the new ID to update the state
 		});
 	}
@@ -118,6 +135,10 @@ export default function Carousel({ tasks, level, exp }: any) {
 						icon={faArrowRight} 
 					/>
 				</div>
+			</div>
+			<div className = "w-full gap-2 flex justify-center items-center mt-4">
+			<p>Reduce Motion</p>
+			<input type = "checkbox" onChange = {() => setReduceMotion(!reduceMotion)}/>
 			</div>
 		</section>
 
