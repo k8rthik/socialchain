@@ -25,9 +25,7 @@ export default function Home() {
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-center">
         {/* Header Section */}
         <h1 className="mb-6 text-6xl font-black uppercase tracking-tight text-[#FF6B6B] drop-shadow-[3px_3px_0_#000]">
-          Social
-          <br />
-          Chain
+          Ripple
         </h1>
 
         {/* Tagline */}
@@ -89,7 +87,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="mt-12 border-t-2 border-black pt-6 text-center text-sm text-gray-600">
-          © 2025 SocialChain — Chain reactions of awesome
+          © 2025 Ripple — Chain reactions of awesome
         </footer>
       </div>
     </div>

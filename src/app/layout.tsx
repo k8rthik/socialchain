@@ -9,7 +9,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "SocialChain",
+  title: "Ripple",
   description: "Connecting you with your community",
 };
 
