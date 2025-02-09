@@ -27,7 +27,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f7f6ee] p-6">
+    <div className="min-h-screen bg-[#f7f6ee] p-6 overflow-x-auto">
       {sampleData && <Tree data={sampleData} />}
     </div>
   );
