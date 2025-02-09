@@ -9,29 +9,27 @@ import { motion } from "framer-motion"
 
 
 
-// tasks.map((task) => (
-// 	<Link
-// 	key={task.id}
-// 	href={`/tasks/${task.id}`}
-// 	className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
-// 	>
-// 	{/* Display the card's title as the task name */}
-// 	{task.cardTitle}
-// 	</Link>
-// ))
-
-// tasks.map((task) => (
-//               <Link
-//                 key={task.id}
-//                 href={`/tasks/${task.id}`}
-//                 className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
-//               >
-//                 {/* Display the card's title as the task name */}
-//                 {task.cardTitle}
-//               </Link>
-//             ))
-
-
+const cards: any[] = [{
+	"title": "Test",
+	"description": "test 1",
+	"points": "1",
+	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
+	"cardID": "1"
+},
+{
+	"title": "Test",
+	"description": "test 2",
+	"points": "2",
+	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
+	"cardID": "2"
+},
+{
+	"title": "Test",
+	"description": "test 3",
+	"points": "3",
+	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
+	"cardID": "3"
+}];
 
 
 
@@ -44,7 +42,7 @@ export default function Carousel(tasks: any) {
 		title: task.cardTitle,
 		description: task.description || "No description available.",
 		points: task.difficulty || "0",
-		src: `/tasks/${task.id}`,
+		src: `/verify?task_id=${task.id}`,
 		cardID: task.card_id
 	}));
 	  

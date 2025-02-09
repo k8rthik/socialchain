@@ -42,10 +42,12 @@ export default function Card(props: any) {
             onAnimationComplete={() => setComplete((complete) => !complete)}
 
           >
-            <h1>{props.title}</h1>
-            <p className="mb-12">{props.points}</p>
-            <img className="w-32 h-32 mb-12 ml-auto mr-16" src={`${props.src}`} />
-            <QRCode value={`http://localhost:8000/qr/${props.cardID}`} />
+            			<h1>{props.title}</h1>
+					<p className="mb-12">{props.points}</p>
+					<img className="w-32 h-32 mb-12 ml-auto mr-16" src={`${props.src}`} />
+					<QRCode value={`http://localhost:3000/${props.src}`} />
+          
+
           </motion.div>
           <motion.div
             initial={{ rotateY: 180 }}
