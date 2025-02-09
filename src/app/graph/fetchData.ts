@@ -11,7 +11,7 @@ async function buildTree(user: any) {
     .eq('status', 'completed');
 
   if (!tasks || tasks.length === 0) {
-    return ({ name: user.name });
+    return ({ name: user.name, id: user.id });
   }
 
   let children = [];
@@ -25,7 +25,16 @@ async function buildTree(user: any) {
     }
   }
 
-  return { name: user.name, children };
+  return { name: user.name, children, id: user.id };
+}
+
+export async function getFlattenedIds(userEmail: string) {
+  getUserTree(userEmail);
+  let ids = [];
+  for (const id in foundIds) {
+    ids.push(id);
+  }
+  return ids;
 }
 
 export async function getUserTree(userEmail: string) {
@@ -38,6 +47,7 @@ export async function getUserTree(userEmail: string) {
 
   if (!user) throw userError;
 
+  foundIds = {};
   return await buildTree(user);
 
 }
