@@ -1,14 +1,15 @@
 // components/Tree.jsx
 import React from 'react';
+import Link from 'next/link';
 
 const TreeNode = ({ node }: { node: any }) => {
   return (
     <div className="flex flex-col items-start relative ml-8 pt-4">
       {/* Node Content */}
-      <div className="border-2 border-black bg-white px-6 py-3 rounded-lg shadow-[3px_3px_0_0_#000] 
+      <Link href={`/profile/${node.id}`} className="border-2 border-black bg-white px-6 py-3 rounded-lg shadow-[3px_3px_0_0_#000] 
           transition-transform hover:translate-x-0.5 hover:translate-y-0.5 relative z-10">
         <span className="font-medium text-gray-900">{node.name}</span>
-      </div>
+      </Link>
 
       {/* Children */}
       {node.children?.length > 0 && (
