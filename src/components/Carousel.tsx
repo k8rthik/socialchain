@@ -33,7 +33,7 @@ export default function Carousel({ tasks, level, exp }: any) {
         setTimeout(() => {
           setCard(cards[newId]); // Update the card based on the new ID
           setAnimationState("slide1");
-        }, 2000);
+        }, 1000);
       } else {
         setCard(cards[newId]);
       }
@@ -51,7 +51,7 @@ export default function Carousel({ tasks, level, exp }: any) {
         setTimeout(() => {
           setAnimationState("slide1");
           setCard(cards[newId]); // Update the card based on the new ID
-        }, 2000);
+        }, 1000);
       } else {
         setCard(cards[newId]);
       }
@@ -77,7 +77,7 @@ export default function Carousel({ tasks, level, exp }: any) {
         <motion.div
           animate={animationState}
           variants={variants}
-          transition={{ duration: 3, ease: "easeInOut" }}
+          transition={{ duration: 0.75, ease: "easeInOut" }}
           className={`mt-8 h-[90%] max-w-[65%] w-[80%] bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]`}
         >
           <div className="bg-blue-100 ph-4 pb-6 pt-6 flex content-center justify-center align-center h-128 rounded-t-lg">
