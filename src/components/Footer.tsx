@@ -32,7 +32,7 @@ export default function Footer() {
             key={index}
             onClick={() => {
               setSelectedMenu(index);
-              router.push("/" + menuItems[index]);
+              router.push(`/${menuItems[index].toLowerCase()}`);
             }}
             className={`cursor-pointer w-20 text-center text-sm font-bold transition-all duration-300 ${
               selectedMenu === index
