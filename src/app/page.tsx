@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { addTasksToCardPool } from '@/lib/tasks';
 
 const tasks = [
   { id: '1', name: "Teach a friend a new word in a foreign language." },
@@ -70,6 +71,7 @@ const Home = () => {
   // Menu Items
   const menuItems = ["Home", "Tasks", "Leaderboard", "Clans", "Profile"];
 
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white font-poppins overflow-hidden">
       <div className="py-10 text-center">
@@ -134,6 +136,15 @@ const Home = () => {
         >
           Log Out
         </button>
+
+        {/* IN CASE U WANNA ADD MORE STUFF HERE */}
+        {/* <button
+          onClick={addTasksToCardPool}
+          className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600"
+        >
+          ut
+        </button> */}
+        
       </div>
 
       {/* Bottom Menu */}
