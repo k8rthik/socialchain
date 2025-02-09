@@ -35,11 +35,11 @@ const cards: any[] = [{
 
 
 
-export default function Carousel(tasks: any) {
+export default function Carousel({tasks, level, exp} : any) {
 
-	console.log(tasks.tasks);
 
-	const cards = tasks.tasks.map((task: any) => ({
+
+	const cards = tasks.map((task: any) => ({
 		title: task.cardTitle,
 		description: task.description || "No description available.",
 		points: task.difficulty || "0",
@@ -89,8 +89,8 @@ export default function Carousel(tasks: any) {
 					</h2>
 				</div>
 				<div className="h-32 w-128 mt-10 text-center">
-					<h1>{`Level: ${20}, exp: ${2500}`}</h1>
-					<Bar level={20} exp={2500} />
+					<h1>{`Level: ${level}, exp: ${exp}`}</h1>
+					<Bar level={level} exp={exp} />
 				</div>
 		<div className = "flex flex-row pl-16 pr-16 content-center justify-center">
 

@@ -5,11 +5,14 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Carousel from "../../components/Carousel";
+import { setLogLevel } from "firebase/app";
 
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
   const [username, setUsername] = useState("...");
+  const [exp, setExp] = useState();
+  const [level, setLevel] = useState();
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState<any[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -61,7 +64,7 @@ const Home = () => {
       // Fetch the user's ID
       const { data: usrId, error: usrError } = await supabase
         .from("user")
-        .select("id, name")
+        .select("id, name, level, exp")
         .eq("email", user.email);
 
       if (usrError) {
@@ -70,6 +73,8 @@ const Home = () => {
       }
       
       setUsername(usrId[0].name);
+      setLevel(usrId[0].level);
+      setExp(usrId[0].exp);
 
 
       // Fetch the tasks for the current user
@@ -145,7 +150,7 @@ const Home = () => {
       <div>
         <div>
           {tasks.length > 0 ? (
-            <Carousel tasks={tasks} />
+            <Carousel tasks={tasks} level={level} exp={exp} />
           ) : (
             <p className="text-center text-lg">No tasks available.</p>
           )}
