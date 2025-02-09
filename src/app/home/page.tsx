@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { assignRandomTasksToUser } from "@/app/utils/ass";
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);

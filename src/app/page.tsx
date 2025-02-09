@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -10,13 +11,16 @@ export default function Home() {
         chain!
       </p>
       <div className="mt-6 flex space-x-4">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg">
+        <Link href="/auth/signup" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg">
           Sign Up
-        </button>
+        </Link>
+        <h1 className="mt-4 text-lg text-gray-300">or</h1>
+        <Link href="/auth/login" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg">
+          Log In
+        </Link>
       </div>
       <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
         <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold">Sign Up</h2>
           <p className="text-gray-400">
             Join your city or community, connect your social profiles, and start
             playing.
