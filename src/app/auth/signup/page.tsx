@@ -2,12 +2,15 @@
 
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase'; // Import the Supabase client
+import { assignRandomTasksToUser } from '../../utils/ass';
+import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,11 +27,8 @@ const SignUp = () => {
 
       // Optionally, you can store the user in your own user table
       // Insert user data into a Supabase table
-      await supabase
-        .from('users')
-        .insert([{ email, username: 'default' }]);  // Insert other details like username
-
       console.log('Sign up successful:', data);
+      router.push('/auth/login');
       alert('Sign up successful, please check your email for verification!');
     } catch (err : any) {
       console.error('Error signing up:', err);

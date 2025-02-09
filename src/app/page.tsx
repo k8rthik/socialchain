@@ -4,19 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { addTasksToCardPool } from '@/lib/tasks';
-
-const tasks = [
-  { id: '1', name: "Teach a friend a new word in a foreign language." },
-  { id: '2', name: "Share a motivational quote with someone." },
-  { id: '3', name: "Post a picture of something that made you smile today." },
-  { id: '4', name: "Help a friend with a small task they've been putting off." },
-  { id: '5', name: "Send a message to someone you haven't talked to in a while." }
-];
+import { assignRandomTasksToUser } from '@/app/utils/ass';
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [tasks, setTasks] = useState<any[]>([]); // State to store the tasks
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(0); // Default to the first menu item
   const router = useRouter();
@@ -54,6 +47,54 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      fetchUserTasks();
+    }
+  }, [user]);
+
+  const fetchUserTasks = async () => {
+    try {
+      // Get tasks for the current user
+      const { data: userTasks, error: taskError } = await supabase
+        .from('task')
+        .select('id, card_id, status')
+        .eq('user_id', user.id);
+
+      if (taskError) {
+        console.error('Error fetching tasks:', taskError);
+        return;
+      }
+
+      // Fetch the titles of the cards associated with these tasks
+      const taskWithCardTitles = await Promise.all(
+        userTasks.map(async (task) => {
+          const { data: card, error: cardError } = await supabase
+            .from('cards')
+            .select('title')
+            .eq('id', task.card_id)
+            .single(); // We expect only one card, so use .single()
+
+          if (cardError) {
+            console.error('Error fetching card title:', cardError);
+            return null;
+          }
+
+          return {
+            ...task,
+            cardTitle: card.title,
+          };
+        })
+      );
+
+      // Filter out any tasks that failed to fetch card data
+      setTasks(taskWithCardTitles.filter(Boolean));
+    } catch (error) {
+      console.error('Error fetching user tasks:', error);
+    }
+  };
+
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null); // Clear user state
@@ -69,8 +110,7 @@ const Home = () => {
   if (!user) return <p>Please log in.</p>;
 
   // Menu Items
-  const menuItems = ["Home", "Tasks", "Leaderboard", "Clans", "Profile"];
-
+  const menuItems = ['Home', 'Tasks', 'Leaderboard', 'Clans', 'Profile'];
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white font-poppins overflow-hidden">
@@ -90,15 +130,20 @@ const Home = () => {
       <div className="mt-8 mx-auto text-center">
         <h2 className="text-2xl font-semibold mb-6">Your Tasks Dashboard</h2>
         <div className="space-y-4">
-          {tasks.map((task) => (
-            <Link
-              key={task.id}
-              href={`/tasks/${task.id}`}
-              className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
-            >
-              {task.name}
-            </Link>
-          ))}
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <Link
+                key={task.id}
+                href={`/tasks/${task.id}`}
+                className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
+              >
+                {/* Display the card's title as the task name */}
+                {task.cardTitle}
+              </Link>
+            ))
+          ) : (
+            <p>No tasks available.</p>
+          )}
         </div>
       </div>
 
@@ -115,7 +160,7 @@ const Home = () => {
             <h2 className="text-2xl font-semibold mb-5">Social Friendly Tasks</h2>
             <ul className="list-none p-0">
               {tasks.map((task, index) => (
-                <li key={index} className="mb-4 text-lg font-medium">{task.name}</li>
+                <li key={index} className="mb-4 text-lg font-medium">{task.cardTitle}</li>
               ))}
             </ul>
             <button
@@ -136,15 +181,6 @@ const Home = () => {
         >
           Log Out
         </button>
-
-        {/* IN CASE U WANNA ADD MORE STUFF HERE */}
-        {/* <button
-          onClick={addTasksToCardPool}
-          className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600"
-        >
-          ut
-        </button> */}
-        
       </div>
 
       {/* Bottom Menu */}
@@ -153,7 +189,9 @@ const Home = () => {
           <div
             key={index}
             onClick={() => setSelectedMenu(index)}
-            className={`text-center cursor-pointer w-16 text-sm font-medium transform transition-all duration-300 ${selectedMenu === index ? 'text-yellow-400 font-bold scale-110' : 'text-gray-400 hover:scale-110'}`}
+            className={`text-center cursor-pointer w-16 text-sm font-medium transform transition-all duration-300 ${
+              selectedMenu === index ? 'text-yellow-400 font-bold scale-110' : 'text-gray-400 hover:scale-110'
+            }`}
           >
             {item}
           </div>
