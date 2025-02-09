@@ -167,7 +167,7 @@ text-black font-poppins overflow-hidden"
 
       {/* Profile Info */}
       <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
-        <h2 className="text-3xl font-bold mb-6 text-center">{username}</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center max-w-25 overflow-hidden text-ellipsis whitespace-nowrap">{username}</h2>
 
         <div className="text-lg text-center">
           <p className="font-semibold">Total Points Earned:</p>
@@ -207,7 +207,7 @@ text-black font-poppins overflow-hidden"
                       }`}
                   >
                     <td className="p-2">{index + 1}</td>
-                    <td className="p-2">{user.name}</td>
+                    <td className="p-2 max-w-5 overflow-hidden text-ellipsis whitespace-nowrap">{user.name}</td>
                     <td className="p-2">{user.points}</td>
                   </tr>
                 ))}
