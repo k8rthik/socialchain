@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useState } from "react";
 import { motion } from "framer-motion"
-import Link from "next/link";
+
 
 
 
@@ -35,7 +35,7 @@ const cards: any[] = [{
 
 
 
-export default function Main() {
+export default function Carousel() {
 	const [card, setCard] = useState(cards[0]);
 	const [id, setId] = useState(0);
 	const [dir, setDir] = useState(1);	
@@ -90,13 +90,6 @@ export default function Main() {
 				</div>
 			</div>
 
-			<div className="flex justify-evenly items-center bg-[#946E83] h-16">
-				<Link href="/progress">In-Progress</Link>
-				<Link href="/Approve">Done</Link>
-				<Link href="/Messages">Message</Link>
-				<Link href="/Friends">Friends</Link>
-
-			</div>
 
 		</section>
 

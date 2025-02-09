@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { assignRandomTasksToUser } from "@/app/utils/ass";
+import Carousel from "../../components/Carousel";
+
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
@@ -135,16 +136,17 @@ const Home = () => {
         <h2 className="text-2xl font-semibold mb-6">Your Tasks Dashboard</h2>
         <div className="space-y-4">
           {tasks.length > 0 ? (
-            tasks.map((task) => (
-              <Link
-                key={task.id}
-                href={`/tasks/${task.id}`}
-                className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
-              >
-                {/* Display the card's title as the task name */}
-                {task.cardTitle}
-              </Link>
-            ))
+			<Carousel/>
+            // tasks.map((task) => (
+            //   <Link
+            //     key={task.id}
+            //     href={`/tasks/${task.id}`}
+            //     className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
+            //   >
+            //     {/* Display the card's title as the task name */}
+            //     {task.cardTitle}
+            //   </Link>
+            // ))
           ) : (
             <p>No tasks available.</p>
           )}
