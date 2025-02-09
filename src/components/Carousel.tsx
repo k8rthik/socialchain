@@ -31,27 +31,7 @@ import { motion } from "framer-motion"
 //               </Link>
 //             ))
 
-const cards: any[] = [{
-	"title": "Test",
-	"description": "test 1",
-	"points": "1",
-	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
-	"cardID": "1"
-},
-{
-	"title": "Test",
-	"description": "test 2",
-	"points": "2",
-	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
-	"cardID": "2"
-},
-{
-	"title": "Test",
-	"description": "test 3",
-	"points": "3",
-	"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ozWtTnlT6S-59Pd9VyBrIxmCvB9g5spUqw&s",
-	"cardID": "3"
-}];
+
 
 
 
@@ -65,7 +45,7 @@ export default function Carousel(tasks: any) {
 		description: task.description || "No description available.",
 		points: task.difficulty || "0",
 		src: `/tasks/${task.id}`,
-		cardID: task.id
+		cardID: task.card_id
 	}));
 	  
 

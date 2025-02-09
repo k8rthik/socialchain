@@ -83,7 +83,7 @@ const Home = () => {
         userTasks.map(async (task) => {
           const { data: card, error: cardError } = await supabase
             .from("card")
-            .select("title")
+            .select("*")
             .eq("id", task.card_id)
             .single(); // We expect only one card, so use .single()
 
@@ -95,6 +95,9 @@ const Home = () => {
           return {
             ...task,
             cardTitle: card.title,
+            description: card.description,
+            id: task.id,
+            difficulty: card.difficulty
           };
         }),
       );
