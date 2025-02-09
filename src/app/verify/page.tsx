@@ -84,13 +84,26 @@ const VerifyTask = () => {
         return;
       }
 
-      const {data: xpData} = await supabase.from("user").select('exp').eq("id", user_id);
+      const {data: xpData} = await supabase.from("user").select('exp').eq("id", user_id).single();
+      if (!xpData) {
+        return;
+      }
+
+      const { data : cardData } = await supabase.from("card").select('difficulty').eq("id", task.card_id).single();
+      if (!cardData) {
+        return null;
+      }
       await supabase.from("user").update({
-        exp: xpData.exp + task.exp
+        exp: xpData.exp + cardData.difficulty
       }).eq("id", user_id);
 
-      const {data: currLevel} = await supabase.from("user").select('level').eq("id", user_id);
-      if (currLevel.level <= (Math.pow(1.5,(xpData.exp + task.exp)))) {
+      
+      const {data: currLevel} = await supabase.from("user").select('level').eq("id", user_id).single();
+      if (!currLevel) {
+        return;
+      }
+      console.log(currLevel);
+      if (currLevel.level <= (Math.pow(1.5,(xpData.exp + cardData.difficulty)))) {
         await supabase.from("user").update({
           level: currLevel.level + 1
         }).eq("id", user_id);

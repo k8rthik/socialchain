@@ -24,30 +24,11 @@ export default function Card(props: any) {
   return (
 
     <div className = "flex w-full flex-col content-center gap-5 pb-20 text-center  items-center justify-center">
-
-     
-        
-
-  
-            			<h1>{props.title}</h1>
+          <h1>{props.title}</h1>
 					<p className="italic">{props.points} points</p>
 					<p>{props.description}</p>
-					<QRCode value={`http://localhost:3000/${props.src}`} />
-          
-
-          
-            </div>
-
-
-
-
-
-
-
-
-
-
-
+					<QRCode value={`http://localhost:3000${props.src}`} />
+      </div>
 
   )
 }
