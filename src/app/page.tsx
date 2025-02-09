@@ -25,15 +25,17 @@ export default function Home() {
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-center">
         {/* Header Section */}
         <h1 className="mb-6 text-6xl font-black uppercase tracking-tight text-[#FF6B6B] drop-shadow-[3px_3px_0_#000]">
-          SocialChain
+          Social\nChain
         </h1>
 
         {/* Tagline */}
         <p className="mb-8 max-w-2xl text-center text-xl leading-relaxed text-gray-800">
           Join your community, complete daily challenges, verify them, and pass
           them forward.{" "}
-          <span className="font-black text-[#FF6B6B]">Overcome your social anxiety</span>,
-          climb the leaderboard, and{" "}
+          <span className="font-black text-[#FF6B6B]">
+            Overcome your social anxiety
+          </span>
+          , climb the leaderboard, and{" "}
           <span className="font-black text-[#FF6B6B]">grow your chain!</span>
         </p>
 
