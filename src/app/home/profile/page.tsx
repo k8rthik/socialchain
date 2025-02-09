@@ -222,7 +222,15 @@ text-black font-poppins overflow-hidden">
         </div>
 
         <div className = "mt-4 gap-2 mb-4 flex flex-row w-full justify-center content-center">
-      <input value={socialMedia} onChange={(event) => setSocialMedia(event.target.value)} className = "p-2" placeholder="Social Media Link" type = "text"/>
+        <input
+          value={socialMedia}
+          onChange={(event) => setSocialMedia(event.target.value)}
+          className="p-3 w-full border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+          placeholder="Social Media Link"
+          type="text"
+        />
+
+      {/* <input value={socialMedia} onChange={(event) => setSocialMedia(event.target.value)} className = "p-2" placeholder="Social Media Link" type = "text"/> */}
       <button onClick={handleSocialMedia} className="px-4 py-2 text-sm bg-red-500 text-white border-2 border-black 
           rounded-lg shadow-[3px_3px_0_0_#000] transition-all duration-300 
           hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
