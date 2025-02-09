@@ -17,6 +17,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState<any[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -125,7 +126,7 @@ const Home = () => {
   // Bottom Menu Items
   const menuItems = ["Home", "Tasks", "Leaderboard", "Graph", "Profile"];
 
-  const router = useRouter();
+  
   const handleSignOut = async () => {
       await supabase.auth.signOut();
       router.push("/auth/login");

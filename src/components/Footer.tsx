@@ -18,11 +18,6 @@ export default function Footer() {
 
   return (
     <div>
-      {/* <div className="flex-grow mt-2 text-center bg-white">
-        
-      </div> */}
-
-      {/* Bottom Menu */}
       <div className="fixed bottom-0 left-0 w-full bg-white border-t-2 border-black flex justify-center py-4">
 
         {menuItems.map((item, index) => (
