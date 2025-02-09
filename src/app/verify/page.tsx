@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation"; // Import useSearchParams from next/navigation
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { data } from "framer-motion/client";
 
 const VerifyTask = () => {
   const searchParams = useSearchParams(); // Access query parameters via useSearchParams
@@ -82,6 +83,19 @@ const VerifyTask = () => {
         setStatus("Error updating task.");
         return;
       }
+
+      const {data: xpData} = await supabase.from("user").select('exp').eq("id", user_id);
+      await supabase.from("user").update({
+        exp: xpData.exp + task.exp
+      }).eq("id", user_id);
+
+      const {data: currLevel} = await supabase.from("user").select('level').eq("id", user_id);
+      if (currLevel.level <= (Math.pow(1.5,(xpData.exp + task.exp)))) {
+        await supabase.from("user").update({
+          level: currLevel.level + 1
+        }).eq("id", user_id);
+      }
+    
 
 
 
