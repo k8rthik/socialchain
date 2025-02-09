@@ -183,7 +183,7 @@ text-black font-poppins overflow-hidden">
       </div>
 
       {/* Profile Info */}
-      <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
+      <div className="mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
         <h2 className="text-3xl font-bold mb-6 text-center">
           {username}
         </h2>
