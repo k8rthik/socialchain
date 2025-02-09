@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { getFlattenedIds } from "../graph/fetchData";
+import Footer from "@/components/Footer";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
