@@ -3,44 +3,73 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-5xl font-bold mb-4">SocialChain</h1>
-      <p className="text-lg text-gray-300 max-w-2xl text-center">
-        Join your community, complete daily challenges, verify them, and pass
-        them forward. Gain reputation, climb the leaderboard, and grow your
-        chain!
-      </p>
-      <div className="mt-6 flex space-x-4">
-        <Link href="/auth/signup" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg">
-          Sign Up
-        </Link>
-        <h1 className="mt-4 text-lg text-gray-300">or</h1>
-        <Link href="/auth/login" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg">
-          Log In
-        </Link>
+    <div className="min-h-screen bg-[#f7f6ee] p-6 font-medium text-gray-900">
+      <div className="mx-auto flex max-w-4xl flex-col items-center justify-center">
+        {/* Header Section */}
+        <h1 className="mb-6 text-6xl font-black uppercase tracking-tight text-[#ff4754] drop-shadow-[3px_3px_0_#000]">
+          SocialChain
+        </h1>
+
+        {/* Tagline */}
+        <p className="mb-8 max-w-2xl text-center text-xl leading-relaxed text-gray-800">
+          Join your community, complete daily challenges, verify them, and pass
+          them forward.{" "}
+          <span className="font-black text-[#ff4754]">Gain reputation</span>,
+          climb the leaderboard, and{" "}
+          <span className="font-black text-[#ff4754]">grow your chain!</span>
+        </p>
+
+        {/* Auth Buttons */}
+        <div className="mb-12 flex items-center gap-4">
+          <Link
+            href="/auth/signup"
+            className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#ff4754] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
+          >
+            Sign Up
+          </Link>
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white">
+            <span className="text-sm font-bold">or</span>
+          </div>
+          <Link
+            href="/auth/login"
+            className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-black px-8 text-white shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
+          >
+            Log In
+          </Link>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="grid w-full gap-6 md:grid-cols-3">
+          <div className="rounded-xl border-2 border-black bg-[#ff99cc] p-6 shadow-[5px_5px_0_0_#000]">
+            <h3 className="mb-3 text-xl font-black">Join & Connect</h3>
+            <p className="leading-relaxed text-gray-800">
+              Claim your spot in local communities and connect social profiles
+              to start chaining
+            </p>
+          </div>
+
+          <div className="rounded-xl border-2 border-black bg-[#fff44f] p-6 shadow-[5px_5px_0_0_#000]">
+            <h3 className="mb-3 text-xl font-black">Daily Challenges</h3>
+            <p className="leading-relaxed text-gray-800">
+              Skill-based missions with proof verification to keep your chain
+              growing strong
+            </p>
+          </div>
+
+          <div className="rounded-xl border-2 border-black bg-[#7af6ff] p-6 shadow-[5px_5px_0_0_#000]">
+            <h3 className="mb-3 text-xl font-black">Progress Tracking</h3>
+            <p className="leading-relaxed text-gray-800">
+              Interactive chain visualization, global leaderboards, and
+              reputation analytics
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-12 border-t-2 border-black pt-6 text-center text-sm text-gray-600">
+          © 2025 SocialChain — Chain reactions of awesome
+        </footer>
       </div>
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-        <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <p className="text-gray-400">
-            Join your city or community, connect your social profiles, and start
-            playing.
-          </p>
-        </div>
-        <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold">Complete Challenges</h2>
-          <p className="text-gray-400">
-            Get skill-based tasks, verify with proof, and keep your chain going.
-          </p>
-        </div>
-        <div className="p-4 bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold">Track Progress</h2>
-          <p className="text-gray-400">
-            See your challenge graph, explore the global chain, and climb the
-            leaderboard.
-          </p>
-        </div>
-      </div>
-      <footer className="mt-12 text-gray-500">&copy; 2025 SocialChain.</footer>
     </div>
   );
 }
