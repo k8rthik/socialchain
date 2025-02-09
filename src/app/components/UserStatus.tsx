@@ -1,3 +1,5 @@
+// DEPRECATED: This component is no longer used in the app. It was used to display the user's status (logged in or not) and provide a button to log out. The functionality has been moved to the Layout component. You can safely delete this file.
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -45,7 +47,7 @@ const UserStatus = () => {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null); // Clear user state
-    router.push('/login'); // Redirect to the login page after sign out
+    router.push('/auth/login'); // Redirect to the login page after sign out
   };
 
   if (loading) return <p>Loading...</p>;
