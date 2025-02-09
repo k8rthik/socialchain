@@ -68,7 +68,6 @@ const Profile = () => {
     }
   };
 
-
   const fetchLeaderboard = async () => {
     // make a list of everyone you are connected with via userId's
     let connectedUsers = await getFlattenedIds(user.email); // replace with actual connected users' IDs
@@ -93,7 +92,7 @@ const Profile = () => {
           rank: index + 1,
           id: user.id,
           name: user.name,
-          points: user.exp
+          points: user.exp,
         }));
 
       setLeaderboard(sortedUsers);
@@ -102,73 +101,69 @@ const Profile = () => {
     }
   };
 
-
   const fetchCompletedTasks = async () => {
     try {
-
-        const { data: usrData, error: usrError } = await supabase
+      const { data: usrData, error: usrError } = await supabase
         .from("user")
         .select("id, name, exp")
         .eq("email", user.email)
         .single();
 
-        if (!usrData) {
-            return;
-        }
+      if (!usrData) {
+        return;
+      }
 
       const { data, error } = await supabase
-      .from("task")
-      .select("id, card_id, completed_at")
-      .eq("user_id", usrData.id)
-      .eq("status", "completed")
-      .order("completed_at", { ascending: false }); // Sort by completion date
+        .from("task")
+        .select("id, card_id, completed_at")
+        .eq("user_id", usrData.id)
+        .eq("status", "completed")
+        .order("completed_at", { ascending: false }); // Sort by completion date
 
-    if (error) {
-      console.error("Error fetching completed tasks:", error);
-      return;
-    }
+      if (error) {
+        console.error("Error fetching completed tasks:", error);
+        return;
+      }
 
-    // For each task, fetch the corresponding card details (like title)
-    const tasksWithTitles = await Promise.all(
-      data.map(async (task) => {
-        // Fetch card details using card_id
-        const { data: cardData, error: cardError } = await supabase
-          .from("card")
-          .select("title")
-          .eq("id", task.card_id)
-          .single();
+      // For each task, fetch the corresponding card details (like title)
+      const tasksWithTitles = await Promise.all(
+        data.map(async (task) => {
+          // Fetch card details using card_id
+          const { data: cardData, error: cardError } = await supabase
+            .from("card")
+            .select("title")
+            .eq("id", task.card_id)
+            .single();
 
-        if (cardError || !cardData) {
-          console.error("Error fetching card details:", cardError);
-          return null;
-        }
+          if (cardError || !cardData) {
+            console.error("Error fetching card details:", cardError);
+            return null;
+          }
 
-        return { ...task, title: cardData.title }; // Merge card title with task data
-      })
-    );
+          return { ...task, title: cardData.title }; // Merge card title with task data
+        }),
+      );
 
-    // Filter out any tasks that failed to fetch card data
-    setCompletedTasks(tasksWithTitles.filter(task => task !== null));
+      // Filter out any tasks that failed to fetch card data
+      setCompletedTasks(tasksWithTitles.filter((task) => task !== null));
 
+      //   const { data, error } = await supabase
+      //     .from("task")
+      //     .select("id, completed_at")
+      //     .eq("user_id", user.id)
+      //     .is("completed_at", true)
+      //     .order("completed_at", { ascending: false }); // Sort by completion date
 
-    //   const { data, error } = await supabase
-    //     .from("task")
-    //     .select("id, completed_at")
-    //     .eq("user_id", user.id)
-    //     .is("completed_at", true)
-    //     .order("completed_at", { ascending: false }); // Sort by completion date
+      //   if (error) {
+      //     console.error("Error fetching completed tasks:", error);
+      //     return;
+      //   }
 
-    //   if (error) {
-    //     console.error("Error fetching completed tasks:", error);
-    //     return;
-    //   }
-
-    //   setCompletedTasks(data);
+      //   setCompletedTasks(data);
     } catch (error) {
       console.error("Error fetching completed tasks:", error);
     }
   };
-
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -187,7 +182,9 @@ const Profile = () => {
 
       {/* Profile Info */}
       <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
-        <h2 className="text-3xl font-bold mb-6 text-center">Hello, {username}</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Hello, {username}
+        </h2>
 
         <div className="text-lg text-center">
           <p className="font-semibold">Total Points Earned:</p>
@@ -196,7 +193,9 @@ const Profile = () => {
 
         {/* Leaderboard */}
         <div className="mt-8">
-          <h3 className="text-2xl font-bold text-center mb-4">Local Leaderboard</h3>
+          <h3 className="text-2xl font-bold text-center mb-4">
+            Local Leaderboard
+          </h3>
           <div className="bg-gray-100 p-4 rounded-lg">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -219,10 +218,11 @@ const Profile = () => {
           </div>
         </div>
 
-
         {/* Completed Tasks - Sliding Row */}
         <div className="mt-8">
-          <h3 className="text-2xl font-bold text-center mb-4">Completed Tasks</h3>
+          <h3 className="text-2xl font-bold text-center mb-4">
+            Completed Tasks
+          </h3>
           <div className="overflow-x-auto flex space-x-4 pb-4">
             {completedTasks.length > 0 ? (
               completedTasks.map((task) => (
@@ -231,7 +231,10 @@ const Profile = () => {
                   className="min-w-[200px] p-4 bg-blue-100 rounded-lg shadow-lg"
                 >
                   <h4 className="text-lg font-bold">{task.title}</h4>
-                  <p className="text-sm text-gray-600">Completed on: {new Date(task.completed_at).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-600">
+                    Completed on:{" "}
+                    {new Date(task.completed_at).toLocaleDateString()}
+                  </p>
                 </div>
               ))
             ) : (
@@ -239,19 +242,9 @@ const Profile = () => {
             )}
           </div>
         </div>
-
-    </div>
-
-
-      {/* Log Out Button */}
-      <div className="mt-8 text-center">
-        <button
-          onClick={handleSignOut}
-          className="px-6 py-3 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
-        >
-          Log Out
-        </button>
       </div>
+
+      <Footer />
     </div>
   );
 };
