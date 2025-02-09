@@ -9,6 +9,27 @@ import { motion } from "framer-motion"
 
 
 
+// tasks.map((task) => (
+// 	<Link
+// 	key={task.id}
+// 	href={`/tasks/${task.id}`}
+// 	className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
+// 	>
+// 	{/* Display the card's title as the task name */}
+// 	{task.cardTitle}
+// 	</Link>
+// ))
+
+// tasks.map((task) => (
+//               <Link
+//                 key={task.id}
+//                 href={`/tasks/${task.id}`}
+//                 className="block px-4 py-3 bg-blue-500 text-white rounded-md shadow-lg transition-all duration-300 hover:bg-blue-400 transform hover:scale-105"
+//               >
+//                 {/* Display the card's title as the task name */}
+//                 {task.cardTitle}
+//               </Link>
+//             ))
 
 const cards: any[] = [{
 	"title": "Test",
@@ -35,10 +56,25 @@ const cards: any[] = [{
 
 
 
-export default function Carousel() {
+export default function Carousel(tasks: any) {
+
+	console.log(tasks.tasks);
+
+	const cards = tasks.tasks.map((task : any) => ({
+		title: task.cardTitle,
+		description: task.description || "No description available.",
+		points: task.difficulty || "0",
+		src: `/tasks/${task.id}`,
+		cardID: task.id
+	}));
+	  
+
 	const [card, setCard] = useState(cards[0]);
 	const [id, setId] = useState(0);
 	const [dir, setDir] = useState(1);	
+
+
+	
 
 	function handleLeft() {
 		setId(() => {
