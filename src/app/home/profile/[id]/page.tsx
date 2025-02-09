@@ -4,11 +4,13 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useParams, useRouter } from "next/navigation";
 import { getFlattenedIds } from "@/app/home/graph/fetchData";
+import Link from "next/link";
 import Footer from "@/components/Footer";
 
 const Profile = () => {
   const { id } = useParams();
   const [username, setUsername] = useState("...");
+  const [socialMedia, setSocialMedia] = useState("");
   const [email, setEmail] = useState("");
   const [points, setPoints] = useState(0);
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
@@ -33,7 +35,7 @@ const Profile = () => {
       // Fetch the user's ID and name
       const { data: usrData, error: usrError } = await supabase
         .from("user")
-        .select("id, name, exp, email")
+        .select("id, name, exp, email, social_media")
         .eq("id", id)
         .single();
 
@@ -43,6 +45,7 @@ const Profile = () => {
       }
 
       setUsername(usrData.name);
+      setSocialMedia(usrData.social_media);
       setEmail(usrData.email);
       setPoints(usrData.exp);
     } catch (error) {
@@ -171,8 +174,19 @@ text-black font-poppins overflow-hidden"
           <p className="text-2xl font-bold">{points} points</p>
         </div>
 
+        {socialMedia && (
+          <Link
+            href={socialMedia.startsWith('https://') ? socialMedia : `https://${socialMedia}`}
+            className="mt-4 gap-2 mb-4 text-blue-500 flex flex-row w-full justify-center content-center"
+          >
+            {socialMedia}
+          </Link>
+        )}
+
+
         {/* Leaderboard */}
         <div className="mt-8">
+
           <h3 className="text-2xl font-bold text-center mb-4">
             Local Leaderboard
           </h3>
@@ -189,9 +203,8 @@ text-black font-poppins overflow-hidden"
                 {leaderboard.map((user, index) => (
                   <tr
                     key={user.id}
-                    className={`border-b border-gray-300 ${
-                      index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                    }`}
+                    className={`border-b border-gray-300 ${index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                      }`}
                   >
                     <td className="p-2">{index + 1}</td>
                     <td className="p-2">{user.name}</td>
