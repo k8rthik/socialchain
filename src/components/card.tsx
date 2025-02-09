@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { motion } from "framer-motion";
@@ -24,7 +23,7 @@ export default function Card(props: any) {
   return (
 
     <div className="flex w-full h-full flex-col content-center gap-2 pt-6 pb-6 text-center items-center justify-center">
-      <QRCode className="w-32 h-32" value={`http://localhost:3000${props.src}`} />
+      <QRCode className="w-32 h-32" value={process.env.NODE_ENV === "development" ? `http://localhost:3000${props.src}` : `https://socialchain-liart.vercel.app${props.src}`} />
       <p className="italic">{props.points} points</p>
       <div className="text-center">
         <button
