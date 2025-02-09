@@ -191,7 +191,7 @@ const Home = () => {
         </div>
       )}
       {/* Log Out Button */}
-      <div className="mt-8 text-center">
+      <div className="mt-2 text-center">
         <button
           onClick={handleSignOut}
           className="px-6 py-3 mb-10 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
