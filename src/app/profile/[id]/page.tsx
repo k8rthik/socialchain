@@ -2,61 +2,39 @@
 
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
-import { getFlattenedIds } from "../graph/fetchData";
+import { useParams, useRouter } from "next/navigation";
+import { getFlattenedIds } from "../../graph/fetchData";
 import Footer from "@/components/Footer";
 
 const Profile = () => {
-  const [user, setUser] = useState<any>(null);
+  const { id } = useParams();
   const [username, setUsername] = useState("...");
+  const [email, setEmail] = useState("");
   const [points, setPoints] = useState(0);
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
   const [completedTasks, setCompletedTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [socialMedia, setSocialMedia] = useState("");
-  const [userID, setUserID] = useState("");
-  const [success, showSuccess] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
-
-        if (session) {
-          setUser(session.user);
-        } else {
-          setUser(null);
-          router.push("/auth/login"); // Redirect to login if not logged in
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching session:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchSession();
-  }, [router]);
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
-    if (user) {
-      fetchUserProfile();
+    if (email) {
+      setLoading(false);
       fetchLeaderboard();
       fetchCompletedTasks();
     }
-  }, [user]);
+  }, [email]);
 
   const fetchUserProfile = async () => {
     try {
       // Fetch the user's ID and name
       const { data: usrData, error: usrError } = await supabase
         .from("user")
-        .select("id, name, exp, social_media")
-        .eq("email", user.email)
+        .select("id, name, exp, email")
+        .eq("id", id)
         .single();
 
       if (usrError || !usrData) {
@@ -65,9 +43,7 @@ const Profile = () => {
       }
 
       setUsername(usrData.name);
-      setUserID(usrData.id);
-      setSocialMedia(usrData.social_media);
-
+      setEmail(usrData.email);
       setPoints(usrData.exp);
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -76,8 +52,9 @@ const Profile = () => {
 
   const fetchLeaderboard = async () => {
     // make a list of everyone you are connected with via userId's
-    let connectedUsers = await getFlattenedIds(user.email); // replace with actual connected users' IDs
-    console.log(user.email);
+    let connectedUsers = await getFlattenedIds(email); // replace with actual connected users' IDs
+    console.log(email);
+    console.log(connectedUsers);
 
     try {
       // Fetch the exp of all connected users
@@ -101,6 +78,8 @@ const Profile = () => {
           points: user.exp,
         }));
 
+      console.log(sortedUsers);
+
       setLeaderboard(sortedUsers);
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
@@ -112,7 +91,7 @@ const Profile = () => {
       const { data: usrData, error: usrError } = await supabase
         .from("user")
         .select("id, name, exp")
-        .eq("email", user.email)
+        .eq("email", email)
         .single();
 
       if (!usrData) {
@@ -126,13 +105,10 @@ const Profile = () => {
         .eq("status", "completed")
         .order("completed_at", { ascending: false }); // Sort by completion date
 
-
-        
       if (error) {
         console.error("Error fetching completed tasks:", error);
         return;
       }
-    
 
       // For each task, fetch the corresponding card details (like title)
       const tasksWithTitles = await Promise.all(
@@ -174,44 +150,19 @@ const Profile = () => {
     }
   };
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    router.push("/auth/login");
-  };
-
-
-  const handleSocialMedia = async () => {
-    const { error: updateError } = await supabase
-    .from('user')
-    .update({
-      social_media: socialMedia
-    })
-    .eq('id', userID);
-
-    if (!updateError) {
-      showSuccess(true);
-      setTimeout(() => {
-        showSuccess(false);
-      }, 3000);
-    }
-
-  }
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="flex flex-col min-h-screen mx-auto px-6 py-4 bg-[#f8f5f2] 
+    <div className="flex flex-col min-h-screen max-w-5xl mx-auto px-6 py-4 bg-[#f8f5f2] 
 text-black font-poppins overflow-hidden">
       {/* Header */}
       <div className="py-10 text-center">
         <h1 className="text-4xl font-bold tracking-wide">Profile</h1>
       </div>
 
-
-
       {/* Profile Info */}
-      <div className="mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
+      <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
         <h2 className="text-3xl font-bold mb-6 text-center">
           {username}
         </h2>
@@ -220,15 +171,6 @@ text-black font-poppins overflow-hidden">
           <p className="font-semibold">Total Points Earned:</p>
           <p className="text-2xl font-bold">{points} points</p>
         </div>
-
-        <div className = "mt-4 gap-2 mb-4 flex flex-row w-full justify-center content-center">
-      <input value={socialMedia} onChange={(event) => setSocialMedia(event.target.value)} className = "p-2" placeholder="Social Media Link" type = "text"/>
-      <button onClick={handleSocialMedia} className="px-4 py-2 text-sm bg-red-500 text-white border-2 border-black 
-          rounded-lg shadow-[3px_3px_0_0_#000] transition-all duration-300 
-          hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
-        >Save</button>
-  </div>
-  <p className={`text-center text-green-600 ${success ? "" : "hidden"}`}>Successfully Saved Social Media Link</p>
 
         {/* Leaderboard */}
         <div className="mt-8">
@@ -246,18 +188,12 @@ text-black font-poppins overflow-hidden">
               </thead>
               <tbody>
                 {leaderboard.map((user, index) => (
-                    <tr
-                        key={user.id}
-                        className={`border-b border-gray-300 ${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                        }`}
-                    >
-                        <td className="p-2">{index + 1}</td>
-                        <td className="p-2">{user.name}</td>
-                        <td className="p-2">{user.points}</td>
-                    </tr>
+                  <tr key={user.id} className="border-b border-gray-300">
+                    <td className="p-2">{index + 1}</td>
+                    <td className="p-2">{user.name}</td>
+                    <td className="p-2">{user.points}</td>
+                  </tr>
                 ))}
-
               </tbody>
             </table>
           </div>
