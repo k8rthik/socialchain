@@ -1,0 +1,174 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import Bar from "../../components/Bar";
+
+const Profile = () => {
+  const [user, setUser] = useState<any>(null);
+  const [username, setUsername] = useState("...");
+  const [points, setPoints] = useState(0);
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (session) {
+          setUser(session.user);
+        } else {
+          setUser(null);
+          router.push("/auth/login"); // Redirect to login if not logged in
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching session:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchSession();
+  }, [router]);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserProfile();
+      fetchLeaderboard();
+    }
+  }, [user]);
+
+  const fetchUserProfile = async () => {
+    try {
+      // Fetch the user's ID and name
+      const { data: usrData, error: usrError } = await supabase
+        .from("user")
+        .select("id, name, exp")
+        .eq("email", user.email)
+        .single();
+
+      if (usrError || !usrData) {
+        console.error("Error fetching user profile:", usrError);
+        return;
+      }
+
+      setUsername(usrData.name);
+
+      setPoints(usrData.exp);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
+
+
+  const fetchLeaderboard = async () => {
+    // make a list of everyone you are connected with via userId's
+    let connectedUsers = [59, 60, 61, 62, 63, 64]; // replace with actual connected users' IDs
+
+    try {
+      // Fetch the exp of all connected users
+      const { data, error } = await supabase
+        .from("user")
+        .select("id, name, exp")
+        .in("id", connectedUsers);
+
+      if (error) {
+        console.error("Error fetching leaderboard data:", error);
+        return;
+      }
+
+      // Sort users by their exp in descending order
+      const sortedUsers = data
+        .sort((a, b) => b.exp - a.exp) // descending order by exp
+        .map((user, index) => ({
+          rank: index + 1,
+          id: user.id,
+          name: user.name,
+          points: user.exp
+        }));
+
+      setLeaderboard(sortedUsers);
+    } catch (error) {
+      console.error("Error fetching leaderboard:", error);
+    }
+  };
+
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.push("/auth/login");
+  };
+
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+
+  return (
+    <div className="flex flex-col min-h-screen bg-[#f8f5f2] text-black font-poppins overflow-hidden">
+      {/* Header */}
+      <div className="py-10 text-center">
+        <h1 className="text-4xl font-bold tracking-wide">Profile</h1>
+      </div>
+
+      {/* Profile Info */}
+      <div className="mt-8 mx-auto w-full max-w-3xl p-8 bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000]">
+        <h2 className="text-3xl font-bold mb-6 text-center">Hello, {username}</h2>
+
+        <div className="text-lg text-center">
+          <p className="font-semibold">Total Points Earned:</p>
+          <p className="text-2xl font-bold">{points} points</p>
+        </div>
+
+        {/* Placeholder for Network Graph */}
+        <div className="mt-6">
+          <h3 className="text-2xl font-bold text-center">Your Network Graph</h3>
+          <div className="w-full h-40 bg-gray-300 rounded-lg mt-4 flex items-center justify-center">
+            <p className="text-gray-700">Coming Soon...</p>
+          </div>
+        </div>
+
+        {/* Leaderboard */}
+        <div className="mt-8">
+          <h3 className="text-2xl font-bold text-center mb-4">Leaderboard</h3>
+          <div className="bg-gray-100 p-4 rounded-lg">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-gray-300">
+                  <th className="p-2">Rank</th>
+                  <th className="p-2">Name</th>
+                  <th className="p-2">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard.map((user, index) => (
+                  <tr key={user.id} className="border-b border-gray-300">
+                    <td className="p-2">{index + 1}</td>
+                    <td className="p-2">{user.name}</td>
+                    <td className="p-2">{user.points}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Log Out Button */}
+      <div className="mt-8 text-center">
+        <button
+          onClick={handleSignOut}
+          className="px-6 py-3 bg-red-500 text-white border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
+        >
+          Log Out
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;
