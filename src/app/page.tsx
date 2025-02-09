@@ -56,10 +56,19 @@ const Home = () => {
   const fetchUserTasks = async () => {
     try {
       // Get tasks for the current user
+      const { data: usrId, error: usrError } = await supabase
+        .from('user')
+        .select('id')
+        .eq('email', user.email);
+
+      if (usrError) {
+        console.error('Error fetching user ID:', usrError);
+        return;
+      }
       const { data: userTasks, error: taskError } = await supabase
         .from('task')
         .select('id, card_id, status')
-        .eq('user_id', user.id);
+        .eq('user_id', usrId[0].id);
 
       if (taskError) {
         console.error('Error fetching tasks:', taskError);
@@ -70,7 +79,7 @@ const Home = () => {
       const taskWithCardTitles = await Promise.all(
         userTasks.map(async (task) => {
           const { data: card, error: cardError } = await supabase
-            .from('cards')
+            .from('card')
             .select('title')
             .eq('id', task.card_id)
             .single(); // We expect only one card, so use .single()

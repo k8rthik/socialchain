@@ -7,9 +7,15 @@ export default async function Page({
   params: Promise<{ id: string }>
 }) {
   const id = (await params).id
-  return (<CenteredLayout>
 
-    <QRCode value={id} />
+
+  const isLocal = process.env.NODE_ENV === "development";
+  const baseUrl = isLocal ? "http://localhost:3000" : "https://socialchain-readthedocumentations-projects.vercel.app";
+
+
+  const taskUrl = `${baseUrl}/tasks/${id}`;
+  return (<CenteredLayout>
+    <QRCode value={taskUrl} />
   </CenteredLayout>
 
   )
