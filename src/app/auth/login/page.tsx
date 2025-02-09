@@ -118,7 +118,7 @@ const LoginPage = () => {
                 provider: "google",
                 options: {
                   redirectTo:
-                    "socialchain-liart.vercel.app/auth/callback?next=/",
+                    "socialchain-liart.vercel.app/auth/callback?next=/home",
                 },
               })
             }
