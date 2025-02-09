@@ -84,7 +84,7 @@ const LoginPage = () => {
           <div className="space-y-2">
             <label
               htmlFor="password"
-              className="block text-sm font-semibold text-black uppercase tracking-wide"
+              className="block text-sm font-semibold textuppercase tracking-wide text-black"
             >
               Password
             </label>
@@ -95,7 +95,7 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none transition-all"
+              className="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none transition-all text-black"
             />
           </div>
 
