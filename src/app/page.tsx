@@ -32,7 +32,7 @@ export default function Home() {
         <p className="mb-8 max-w-2xl text-center text-xl leading-relaxed text-gray-800">
           Join your community, complete daily challenges, verify them, and pass
           them forward.{" "}
-          <span className="font-black text-[#FF6B6B]">Gain reputation</span>,
+          <span className="font-black text-[#FF6B6B]">Overcome your social anxiety</span>,
           climb the leaderboard, and{" "}
           <span className="font-black text-[#FF6B6B]">grow your chain!</span>
         </p>

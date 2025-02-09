@@ -19,7 +19,7 @@ const VerifyTask = () => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user?.id) {
-        router.push("/login"); // Redirect to login page if not authenticated
+        router.push("/auth/signup"); // Redirect to login page if not authenticated
       }
     };
 
