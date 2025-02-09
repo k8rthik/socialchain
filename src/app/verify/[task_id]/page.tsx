@@ -9,10 +9,10 @@ import { data } from "framer-motion/client";
 const VerifyTask = () => {
   const { task_id } = useParams();
   const router = useRouter();
-
-  // Get the task_id and user_id from the URL search parameters
-
   const [status, setStatus] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [verifiedUser, setVerifiedUser] = useState<string | null>(null);
+  const [taskTitle, setTaskTitle] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if the user is logged in
@@ -32,7 +32,8 @@ const VerifyTask = () => {
       return;
     }
 
-    setStatus("Working...");
+    setStatus("Verifying...");
+    setIsLoading(true);
 
     try {
       // Fetch the current session to get the verifier's user ID
@@ -41,7 +42,7 @@ const VerifyTask = () => {
 
       const { data: verifier, error: userError } = await supabase
       .from('user')
-      .select('id')
+      .select('id, name')
       .eq('email', session?.user.email)
       .single();
 
@@ -49,6 +50,7 @@ const VerifyTask = () => {
 
       if (!verifier) {
         setStatus("You are not authorized to verify.");
+        setIsLoading(false);
         return;
       }
 
@@ -63,8 +65,20 @@ const VerifyTask = () => {
        
         const user_id = task?.user_id;
 
+
+        
+
+        // get user
+        const { data: userData, error: usrError } = await supabase
+        .from('user')
+        .select('id, name')
+        .eq('id', user_id)
+        .single();
+
+
       if (taskError || !task) {
         setStatus("Task not found.");
+        setIsLoading(false);
         return;
       }
 
@@ -80,27 +94,51 @@ const VerifyTask = () => {
       if (updateError) {
         console.log(updateError);
         setStatus("Error updating task.");
+        setIsLoading(false);
         return;
       }
+
 
       const {data: xpData} = await supabase.from("user").select('exp').eq("id", user_id).single();
       if (!xpData) {
+        setStatus("Error updating exp.");
+        setIsLoading(false);
         return;
       }
 
-      const { data : cardData } = await supabase.from("card").select('difficulty').eq("id", task.card_id).single();
-      if (!cardData) {
+      const {data: VxpData} = await supabase.from("user").select('exp').eq("id", verifier.id).single();
+      if (!xpData) {
+        setStatus("Error updating exp.");
+        setIsLoading(false);
+        return;
+      }
+
+
+
+
+      const { data : cardData } = await supabase.from("card").select('title, difficulty').eq("id", task.card_id).single();
+      if (!cardData || !VxpData) {
+        setStatus("Error updating exp again...");
+        setIsLoading(false);
         return null;
       }
+
+      setTaskTitle(cardData.title);
+
       await supabase.from("user").update({
         exp: xpData.exp + cardData.difficulty
       }).eq("id", user_id);
+
+      await supabase.from("user").update({
+        exp: (VxpData.exp + (cardData.difficulty / 2))
+      }).eq("id", verifier.id);
 
       
       const {data: currLevel} = await supabase.from("user").select('level').eq("id", user_id).single();
       if (!currLevel) {
         return;
       }
+
       console.log(currLevel);
       if (currLevel.level <= (Math.pow(1.5,(xpData.exp + cardData.difficulty)))) {
         await supabase.from("user").update({
@@ -108,6 +146,7 @@ const VerifyTask = () => {
         }).eq("id", user_id);
       }
     
+      
 
 
 
@@ -161,6 +200,11 @@ if (countError || !countData) {
       console.log("AAAA");
       console.log(verifier.id);
       console.log(randomCard.id);
+
+      setVerifiedUser(userData?.name || "Unknown");
+      setStatus("Verified!");
+      setIsLoading(false);
+
       // Step 5: Optionally, assign the verifier the same task (for verification tracking)
 
       const { error: createVerifierTaskError } = await supabase
@@ -177,9 +221,10 @@ if (countError || !countData) {
       }
 
       // Step 6: Return success message
-      setStatus("Task verified and new task assigned!");
+      setStatus("Verified!");
     } catch (error) {
       console.error("Error during task verification:", error);
+      setIsLoading(false);
       setStatus("An error occurred.");
     }
   };
@@ -190,17 +235,36 @@ if (countError || !countData) {
     }
   }, [task_id]);
 
+
   return (
-    <div className="p-4">
-      <h1>Task Verification</h1>
-      <div>
-        <p>Status: {status}</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#f8f5f2] text-black font-poppins">
+      <div className="bg-white border-4 border-black rounded-[14px] shadow-[8px_8px_0_0_#000] p-10 w-[400px] text-center">
+        <h1 className="text-2xl font-bold mb-5">Task Verification</h1>
+
+        {isLoading ? (
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-black"></div>
+            <p className="mt-4 text-lg font-medium">Verifying...</p>
+          </div>
+        ) : status === "Verified!" ? (
+          <div>
+            <p className="text-xl font-semibold mb-4">You verified {verifiedUser}!</p>
+            <p className="text-gray-600 mb-6">You have received their task. Pass it on!</p>
+
+            <button
+              onClick={() => router.push("/home")}
+              className="bg-yellow-400 text-black font-bold py-2 px-6 border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
+            >
+              {taskTitle}
+            </button>
+          </div>
+        ) : (
+          <p className="text-red-500 font-semibold">{status}</p>
+        )}
       </div>
-      {status === "Working..." && <div>Processing task...</div>}
-      {status === "done!" && <div>Task completed and new task assigned!</div>}
-      {status === "fail :(" && <div>Something went wrong. Please try again.</div>}
     </div>
   );
+
 };
 
 export default VerifyTask;
