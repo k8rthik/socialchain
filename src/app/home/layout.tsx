@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { Open_Sans } from "next/font/google";
+import Footer from "@/components/Footer";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -8,7 +8,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Ripple",
+  title: "Your Profile",
   description: "Connecting you with your community",
 };
 
@@ -19,7 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={openSans.className}>{children}</body>
+      <body className={openSans.className}>
+        <div>
+          {children}
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }

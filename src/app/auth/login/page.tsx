@@ -116,8 +116,13 @@ const LoginPage = () => {
               await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
+<<<<<<< Updated upstream
                   queryParams: { next: "/home" },
                   redirectTo: process.env.NODE_ENV !== "development" ? `https://socialchain-liart.vercel.app/auth/callback` : "http://localhost:3000/auth/callback",
+=======
+                  redirectTo:
+                    "socialchain-liart.vercel.app/auth/callback?next=/",
+>>>>>>> Stashed changes
                 },
               })
             }

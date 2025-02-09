@@ -123,20 +123,18 @@ const Home = () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!user) return <p className="text-center mt-10">Please log in.</p>;
 
-  // Bottom Menu Items
-  const menuItems = ["Home", "Tasks", "Leaderboard", "Graph", "Profile"];
-
-  
   const handleSignOut = async () => {
-      await supabase.auth.signOut();
-      router.push("/auth/login");
-    };
+    await supabase.auth.signOut();
+    router.push("/auth/login");
+  };
 
   return (
-    <div className="flex flex-col bg-[#f8f5f2] text-black font-poppins h-lvh">
+    <div className="flex flex-col bg-[#f8f5f2] text-black font-poppins min-h-screen pb-20">
       {/* Header */}
       <div className="pt-10 text-center">
-        <h1 className="text-4xl font-bold tracking-wide mb-4">Hello, {username}</h1>
+        <h1 className="text-4xl font-bold tracking-wide mb-4">
+          Hello, {username}
+        </h1>
       </div>
       <div className="flex flex-row content-center justify-center mr-16">
         <Bar level={level} exp={exp} />
@@ -147,15 +145,13 @@ const Home = () => {
 
       {/* Tasks Dashboard */}
       <div>
-        <div>
-          {tasks.length > 0 ? (
-            <Carousel tasks={tasks} level={level} exp={exp} />
-          ) : (
-            <p className="text-center text-lg">No tasks available.</p>
-          )}
-        </div>
+        {tasks.length > 0 ? (
+          <Carousel tasks={tasks} level={level} exp={exp} />
+        ) : (
+          <p className="text-center text-lg">No tasks available.</p>
+        )}
       </div>
-      
+
       <div className="text-center">
         <button
           onClick={handleSignOut}
@@ -166,8 +162,6 @@ const Home = () => {
           Log Out
         </button>
       </div>
-      
-
     </div>
   );
 };

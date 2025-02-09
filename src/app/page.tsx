@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
+  const [session, setSession] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -13,12 +14,10 @@ export default function Home() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      if (session) {
-        router.push("/home/");
-      }
+      setSession(session);
     };
     checkSession();
-  }, [router]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f7f6ee] p-6 font-medium text-gray-900">
@@ -41,21 +40,33 @@ export default function Home() {
 
         {/* Auth Buttons */}
         <div className="mb-12 flex items-center gap-4">
-          <Link
-            href="/auth/signup"
-            className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#FF6B6B] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
-          >
-            Sign Up
-          </Link>
-          <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white">
-            <span className="text-sm font-bold">or</span>
-          </div>
-          <Link
-            href="/auth/login"
-            className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-black px-8 text-white shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
-          >
-            Log In
-          </Link>
+          {session ? (
+            <Link
+              href="/home"
+              className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#FF6B6B] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
+            >
+              {" "}
+              Go Home{" "}
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/auth/signup"
+                className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-[#FF6B6B] px-8 shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
+              >
+                Sign Up
+              </Link>
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-white">
+                <span className="text-sm font-bold">or</span>
+              </div>
+              <Link
+                href="/auth/login"
+                className="flex h-12 items-center justify-center rounded-lg border-2 border-black bg-black px-8 text-white shadow-[3px_3px_0_0_#000] transition-transform hover:translate-x-0.5 hover:translate-y-0.5"
+              >
+                Log In
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Feature Cards */}
