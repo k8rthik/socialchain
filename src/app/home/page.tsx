@@ -136,6 +136,7 @@ const Home = () => {
       {/* Header */}
       <div className="py-10 text-center">
         <h1 className="text-4xl font-bold tracking-wide">
+      
           Hello, {user.email}
         </h1>
       </div>
@@ -149,7 +150,6 @@ const Home = () => {
             <p className="text-center text-lg">No tasks available.</p>
           )}
         </div>
-        <Bar level={20} exp={3325}/>
       </div>
 
       {/* Popup for Tasks */}
