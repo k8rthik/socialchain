@@ -9,6 +9,7 @@ import Bar from "../../components/Bar";
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
+  const [username, setUsername] = useState("...");
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState<any[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -43,7 +44,7 @@ const Home = () => {
         else setUser(null);
       },
     );
-
+    
     return () => {
       authListener?.subscription.unsubscribe();
     };
@@ -60,13 +61,17 @@ const Home = () => {
       // Fetch the user's ID
       const { data: usrId, error: usrError } = await supabase
         .from("user")
-        .select("id")
+        .select("id, name")
         .eq("email", user.email);
 
       if (usrError) {
         console.error("Error fetching user ID:", usrError);
         return;
       }
+      
+      setUsername(usrId[0].name);
+
+
       // Fetch the tasks for the current user
       const { data: userTasks, error: taskError } = await supabase
         .from("task")
@@ -121,6 +126,8 @@ const Home = () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!user) return <p className="text-center mt-10">Please log in.</p>;
 
+  
+
   // Bottom Menu Items
   const menuItems = ["Home", "Tasks", "Leaderboard", "Clans", "Profile"];
 
@@ -128,7 +135,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen bg-[#f8f5f2] text-black font-poppins overflow-hidden">
       {/* Header */}
       <div className="py-10 text-center">
-        <h1 className="text-4xl font-bold tracking-wide">Hello, {user.name}</h1>
+        <h1 className="text-4xl font-bold tracking-wide">Hello, {username}</h1>
       </div>
 
       {/* Tasks Dashboard */}
