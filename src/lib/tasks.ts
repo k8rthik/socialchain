@@ -47,26 +47,21 @@ const addTasksToCardPool = async () => {
     "Attend a local sports event or game and cheer for the home team",
     "Take a different route to work or school and notice the changes in your surroundings",
     "Learn a few phrases in a new language and try them out with someone who speaks it",
-    "Write down three things you're grateful for today and share them with someone close to you"
+    "Write down three things you're grateful for today and share them with someone close to you",
   ];
 
   const cardsToInsert = taskTitles.map((title) => ({
     title,
-    description: "This is a social challenge task.",
-    difficulty: 25
+    description,
+    difficulty: 25,
   }));
 
-
   // print out users
-  const { data: users, error } = await supabase
-    .from("users")
-    .select("*");
+  const { data: users, error } = await supabase.from("users").select("*");
 
   // Insert the tasks as cards into the Card table
   try {
-    const { data, error } = await supabase
-      .from("card")
-      .insert(cardsToInsert); // Using `upsert` ensures it doesn't add duplicates
+    const { data, error } = await supabase.from("card").insert(cardsToInsert); // Using `upsert` ensures it doesn't add duplicates
 
     if (error) {
       console.error("Error inserting cardd:", error);
@@ -80,3 +75,4 @@ const addTasksToCardPool = async () => {
 };
 
 export { addTasksToCardPool };
+
