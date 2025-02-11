@@ -1,6 +1,7 @@
 // components/Tree.jsx
 import React from "react";
 import Link from "next/link";
+import { useState } from "react";
 
 const TreeNode = ({ node }: { node: any }) => {
   return (
@@ -30,7 +31,11 @@ const TreeNode = ({ node }: { node: any }) => {
   );
 };
 
-const Tree = ({ data }: { data: any }) => {
+const Tree = ({ data, data2 }: { data: any; data2?: any }) => {
+  const [showSecondTree, setShowSecondTree] = useState(true);
+  console.log(showSecondTree);
+  console.log(data);
+  console.log(data2);
   return (
     <div
       className="w-full max-w-4xl mx-auto p-6 border-2 border-black bg-[#f0fff7] rounded-xl 
@@ -38,8 +43,25 @@ const Tree = ({ data }: { data: any }) => {
       style={{ maxHeight: "80vh" }}
     >
       <h2 className="text-3xl font-black mb-6 text-[#FF6B6B]">Your Ripples</h2>
+
+
+      {/* Toggle Checkbox */}
+      {data2 && (
+        <label className="flex items-center gap-2 mb-4">
+          <input
+            type="checkbox"
+            className="w-4 h-4"
+            checked={showSecondTree}
+            onChange={() => setShowSecondTree(!showSecondTree)}
+          />
+          <span className="text-sm font-medium text-black">Hide referrer's tree</span>
+        </label>
+      )}
+
+
+
       <div className="overflow-auto">
-        <TreeNode node={data} />
+        <TreeNode node={(showSecondTree && data2) ? data2 : data} />
       </div>
     </div>
   );

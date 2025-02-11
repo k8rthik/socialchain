@@ -19,6 +19,8 @@ const VerifyTask = () => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user?.id) {
+        document.cookie = `verifyURL=/verify/${task_id}; path=/; max-age=3600`;
+
         router.push("/auth/signup"); // Redirect to login page if not authenticated
       }
     };
@@ -42,7 +44,7 @@ const VerifyTask = () => {
 
       const { data: verifier, error: userError } = await supabase
       .from('user')
-      .select('id, name')
+      .select('id, name, referrer')
       .eq('email', session?.user.email)
       .single();
 
@@ -71,7 +73,7 @@ const VerifyTask = () => {
         // get user
         const { data: userData, error: usrError } = await supabase
         .from('user')
-        .select('id, name')
+        .select('id, name, email')
         .eq('id', user_id)
         .single();
 
@@ -204,6 +206,18 @@ if (countError || !countData) {
       console.log(verifier.id);
       console.log(randomCard.id);
 
+
+
+      // move to when signed up in home
+      // if (verifier.referrer === null) {
+      //   await supabase.from("user").update({
+      //     referrer: userData?.email
+      //   }).eq("id", verifier.id);
+      // }
+
+
+
+
       setVerifiedUser(userData?.name || "Unknown");
       setStatus("Verified!");
       setIsLoading(false);
@@ -252,13 +266,13 @@ if (countError || !countData) {
         ) : status === "Verified!" ? (
           <div>
             <p className="text-xl font-semibold mb-4">You verified {verifiedUser}!</p>
-            <p className="text-gray-600 mb-6">You have received their task. Pass it on!</p>
+            <p className="text-gray-600 mb-6">You have received their task: {taskTitle}. Pass it on!</p>
 
             <button
               onClick={() => router.push("/home")}
               className="bg-yellow-400 text-black font-bold py-2 px-6 border-2 border-black rounded-lg shadow-[4px_4px_0_0_#000] transition-all duration-300 hover:shadow-[2px_2px_0_0_#000] hover:translate-y-0.5"
             >
-              {taskTitle}
+              View All Tasks
             </button>
           </div>
         ) : (

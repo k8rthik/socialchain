@@ -10,6 +10,51 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    
+    const verifyUser = async (tid : any) => {
+      
+        const { data: { session } } = await supabase.auth.getSession();
+
+        const { data: u, error: uError } = await supabase // this is you
+        .from('user')
+        .select('id')
+        .eq('email', session?.user.email)
+        .single();
+
+        const { data: t, error: tError } = await supabase // this is you
+        .from('task')
+        .select('user_id')
+        .eq('id', tid)
+        .single();
+        const { data: tT, error: tTError } = await supabase // this is you
+        .from('user')
+        .select('email')
+        .eq('id', t?.user_id)
+        .single();
+
+        console.log(tT);
+
+        await supabase.from("user").update({
+          referrer: tT?.email // him, the person you just verified
+        }).eq('email', session?.user.email); // you
+
+        router.push("/verify/" + tid);
+        
+    }
+
+    const cookies = document.cookie.split("; ");
+    const verifyCookie = cookies.find((row) => row.startsWith("verifyURL="));
+  
+    if (verifyCookie) {
+      const verifyURL = verifyCookie.split("=")[1];
+      const tid = verifyURL.split("/")[2];
+
+      document.cookie = "verifyURL=; path=/; max-age=0"; // Clear cookie
+
+      verifyUser(tid);
+    }
+
+    
     const checkUser = async () => {
       const {
         data: { user },

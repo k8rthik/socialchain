@@ -8,6 +8,7 @@ import { setLogLevel } from "firebase/app";
 import Bar from "@/components/Bar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
+import { u } from "framer-motion/client";
 
 const Home = () => {
   const [user, setUser] = useState<any>(null);
@@ -80,6 +81,7 @@ const Home = () => {
       const { data: userTasks, error: taskError } = await supabase
         .from("task")
         .select("id, card_id, status")
+        .eq("status", "assigned")
         .eq("user_id", usrId[0].id);
 
       if (taskError) {
